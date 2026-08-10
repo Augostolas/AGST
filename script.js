@@ -257,10 +257,10 @@ ${renderTabs('contact')}
 <div class="content-section">
     <pre class="ascii-header">CONTACT CHANNELS
 ----------------</pre>
-    <p>Email   : your-email@example.com</p>
-    <p>Discord : @your_handle</p>
+    <p>Email   : contact@augostolas.com</p>
+    <p>GitHub  : github.com/Augostolas</p>
     <p>Brief   : Send project type, deadline, references, and budget range.</p>
-    <p>Status  : Online for animation, building, scripting, and VFX work.</p>
+    <p>Status  : Available for animation, building, scripting, and VFX work.</p>
 </div>`;
     }
 
