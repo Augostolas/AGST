@@ -66,6 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: 'academy-facade.png',
                     description: 'Large academy facade with arched windows, tower, clock, and long exterior wall.',
                     preview: 'assets/building/academy-facade.png'
+                },
+                {
+                    name: 'puyol_card.png',
+                    description: 'Character card portrait with detailed shading and professional composition.',
+                    preview: 'assets/building/puyol_card.png'
                 }
             ]
         },
