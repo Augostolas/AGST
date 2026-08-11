@@ -1,22 +1,19 @@
 // Firebase Configuration
-// To enable global discovery tracking:
-// 1. Go to https://console.firebase.google.com
-// 2. Create a new project
-// 3. Enable Realtime Database (Start in test mode)
-// 4. Copy your config below and set firebaseEnabled = true
+// Global discovery tracking enabled for AGST Portfolio
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "your-project.firebaseapp.com",
-    databaseURL: "https://your-project.firebaseio.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyDvIMKGsRpzhYC3TloMlmfaPEnTQefUYVU",
+    authDomain: "agst-77e17.firebaseapp.com",
+    databaseURL: "https://agst-77e17.firebaseio.com",
+    projectId: "agst-77e17",
+    storageBucket: "agst-77e17.firebasestorage.app",
+    messagingSenderId: "799641000027",
+    appId: "1:799641000027:web:0d2cdd25bf01e3c88f077e",
+    measurementId: "G-2HSZXNVW1N"
 };
 
 // Set to true after configuring Firebase
-const firebaseEnabled = false;
+const firebaseEnabled = true;
 
 // Initialize Firebase only if configured
 let db = null;
