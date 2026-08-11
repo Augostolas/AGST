@@ -19,56 +19,56 @@ document.addEventListener('DOMContentLoaded', () => {
         animating: {
             title: 'Animating',
             files: [
-                ['loop_showcase.mp4', 'Character loop previews and motion timing.'],
-                ['rig_notes.txt', 'Pose planning, blocking passes, and polish checklist.'],
-                ['anime_eye.gif', 'Stylized animation asset preview.']
+                ['001.loop_showcase.mp4', 'Character loop previews and motion timing.'],
+                ['002.rig_notes.txt', 'Pose planning, blocking passes, and polish checklist.'],
+                ['003.anime_eye.gif', 'Stylized animation asset preview.']
             ]
         },
         building: {
             title: 'Building',
             files: [
                 {
-                    name: 'destroyed-building.png',
+                    name: '001.destroyed-building.png',
                     description: 'Damaged city block with rubble, heavy orange lighting, and street dressing.',
                     preview: 'assets/building/destroyed-building.png'
                 },
                 {
-                    name: 'street-storefront.png',
+                    name: '002.street-storefront.png',
                     description: 'Night storefront facade with balconies, lamps, signage, and warm fog.',
                     preview: 'assets/building/street-storefront.png'
                 },
                 {
-                    name: 'red-temple-arena.png',
+                    name: '003.red-temple-arena.png',
                     description: 'Red-lit rocky arena and temple path with strong mood lighting.',
                     preview: 'assets/building/red-temple-arena.png'
                 },
                 {
-                    name: 'red-interior-room.png',
+                    name: '004.red-interior-room.png',
                     description: 'Stylized red interior set with dining area, kitchen props, and custom lighting.',
                     preview: 'assets/building/red-interior-room.png'
                 },
                 {
-                    name: 'sandstone-street.png',
+                    name: '005.sandstone-street.png',
                     description: 'Sandstone street build with arches, bridges, and warm daylight atmosphere.',
                     preview: 'assets/building/sandstone-street.png'
                 },
                 {
-                    name: 'sunny-plaza.png',
+                    name: '006.sunny-plaza.png',
                     description: 'Bright plaza scene with palm trees, colorful buildings, and open staging.',
                     preview: 'assets/building/sunny-plaza.png'
                 },
                 {
-                    name: 'checkered-lounge.png',
+                    name: '007.checkered-lounge.png',
                     description: 'Red-and-black lounge interior with checker panels and layered seating zones.',
                     preview: 'assets/building/checkered-lounge.png'
                 },
                 {
-                    name: 'academy-facade.png',
+                    name: '008.academy-facade.png',
                     description: 'Large academy facade with arched windows, tower, clock, and long exterior wall.',
                     preview: 'assets/building/academy-facade.png'
                 },
                 {
-                    name: 'puyol_card.png',
+                    name: '009.puyol_card.png',
                     description: 'Character card portrait with detailed shading and professional composition.',
                     preview: 'assets/building/puyol_card.png'
                 }
@@ -77,12 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
         scripting: {
             title: 'Scripting',
             files: [
-                ['client_controller.lua', 'Interactive client systems and UI behavior.'],
-                ['server_services.lua', 'Clean backend logic and game/service flow.'],
-                ['cmd_portfolio.js', 'Terminal-style web interaction layer.'],
+                ['001.client_controller.lua', 'Interactive client controller and UI logic.'],
+                ['002.server_services.lua', 'Backend services and game flow management.'],
+                ['003.cmd_portfolio.js', 'Terminal web interaction and CLI layer.'],
                 {
-                    name: 'ragdoll.gif',
-                    description: 'Ragdoll physics demonstration with character animation.',
+                    name: '004.ragdoll.gif',
+                    description: 'Ragdoll physics simulation and animation demo.',
                     preview: 'assets/scripting/ragdoll.gif'
                 }
             ]
@@ -90,9 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
         vfxing: {
             title: 'VFXing',
             files: [
-                ['impact_burst.vfx', 'Hit effects, flashes, and timing passes.'],
-                ['aura_shader.fx', 'Character aura and animated material experiments.'],
-                ['particle_stack.txt', 'Emitter setups, colors, and blend notes.']
+                ['001.impact_burst.vfx', 'Hit effects, particle bursts, and impact timing.'],
+                ['002.aura_shader.fx', 'Character aura shaders and material experiments.'],
+                ['003.particle_stack.txt', 'Emitter configurations, color blends, and notes.']
             ]
         }
     };
