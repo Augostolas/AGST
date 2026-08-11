@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Set to true after configuring Firebase
-const firebaseEnabled = false;
+const firebaseEnabled = True;
 
 // Initialize Firebase only if configured
 let db = null;
