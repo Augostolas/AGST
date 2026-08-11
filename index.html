@@ -29,13 +29,23 @@
     <aside class="egg-counter-panel" aria-label="Easter egg discovery counter">
         <div class="egg-counter-title">EASTER_EGG.LOG</div>
         <div class="egg-counter-row">
-            <span>FOUND</span>
+            <span>YOUR DISCOVERIES</span>
             <strong id="eggCounter">0</strong>
         </div>
-        <div class="egg-counter-note">admin discoveries</div>
+        <div class="egg-counter-row" style="margin-top: 12px; font-size: 0.9rem;">
+            <span>GLOBAL DISCOVERIES</span>
+            <strong id="globalEggCounter" style="font-size: 1.4rem;">0</strong>
+        </div>
+        <div class="egg-counter-note">users who discovered</div>
     </aside>
 
     <canvas id="matrixCanvas"></canvas>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+    
+    <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

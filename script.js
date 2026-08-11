@@ -312,11 +312,17 @@ cls               clear the terminal</pre>
     function runAdminEasterEgg(command) {
         if (state.adminTimer) clearTimeout(state.adminTimer);
         const discoveries = incrementEggCount();
+        
+        // Sync to global counter if Firebase is enabled
+        if (typeof incrementGlobalDiscoveryCount === 'function') {
+            incrementGlobalDiscoveryCount();
+        }
+        
         document.body.classList.add('rgb-party');
         appendEntry(command, `
 <div class="admin-message">
-    Yo, you found the admin easter egg. That was actually a pretty solid dig.
-    RGB mode is unlocked for 15 seconds. Discovery count: ${discoveries}.
+    Yo, that was actually a pretty solid dig.
+    RGB mode is unlocked for 15 seconds. Your discovery #${discoveries}.
 </div>`);
 
         state.adminTimer = setTimeout(() => {
