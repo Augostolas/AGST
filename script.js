@@ -19,9 +19,21 @@ document.addEventListener('DOMContentLoaded', () => {
         animating: {
             title: 'Animating',
             files: [
-                ['001.loop_showcase.mp4', 'Character loop previews and motion timing.'],
-                ['002.rig_notes.txt', 'Pose planning, blocking passes, and polish checklist.'],
-                ['003.anime_eye.gif', 'Stylized animation asset preview.']
+                {
+                    name: '001.loop_showcase.mp4',
+                    description: 'Character loop previews and motion timing.',
+                    preview: null
+                },
+                {
+                    name: '002.rig_notes.txt',
+                    description: 'Pose planning, blocking passes, and polish checklist.',
+                    preview: null
+                },
+                {
+                    name: '003.anime_eye.gif',
+                    description: 'Stylized animation asset preview.',
+                    preview: 'assets/animating/anime_eye.gif'
+                }
             ]
         },
         building: {
@@ -77,12 +89,24 @@ document.addEventListener('DOMContentLoaded', () => {
         scripting: {
             title: 'Scripting',
             files: [
-                ['001.client_controller.lua', 'Interactive client controller and UI logic.'],
-                ['002.server_services.lua', 'Backend services and game flow management.'],
-                ['003.cmd_portfolio.js', 'Terminal web interaction and CLI layer.'],
+                {
+                    name: '001.client_controller.lua',
+                    description: 'Interactive client systems and UI behavior.',
+                    preview: null
+                },
+                {
+                    name: '002.server_services.lua',
+                    description: 'Clean backend logic and game/service flow.',
+                    preview: null
+                },
+                {
+                    name: '003.cmd_portfolio.js',
+                    description: 'Terminal-style web interaction layer.',
+                    preview: null
+                },
                 {
                     name: '004.ragdoll.gif',
-                    description: 'Ragdoll physics simulation and animation demo.',
+                    description: 'Ragdoll physics demonstration with character animation.',
                     preview: 'assets/scripting/ragdoll.gif'
                 }
             ]
@@ -90,9 +114,21 @@ document.addEventListener('DOMContentLoaded', () => {
         vfxing: {
             title: 'VFXing',
             files: [
-                ['001.impact_burst.vfx', 'Hit effects, particle bursts, and impact timing.'],
-                ['002.aura_shader.fx', 'Character aura shaders and material experiments.'],
-                ['003.particle_stack.txt', 'Emitter configurations, color blends, and notes.']
+                {
+                    name: '001.impact_burst.vfx',
+                    description: 'Hit effects, flashes, and timing passes.',
+                    preview: null
+                },
+                {
+                    name: '002.aura_shader.fx',
+                    description: 'Character aura and animated material experiments.',
+                    preview: null
+                },
+                {
+                    name: '003.particle_stack.txt',
+                    description: 'Emitter setups, colors, and blend notes.',
+                    preview: null
+                }
             ]
         }
     };
