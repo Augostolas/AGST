@@ -79,7 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
             files: [
                 ['client_controller.lua', 'Interactive client systems and UI behavior.'],
                 ['server_services.lua', 'Clean backend logic and game/service flow.'],
-                ['cmd_portfolio.js', 'Terminal-style web interaction layer.']
+                ['cmd_portfolio.js', 'Terminal-style web interaction layer.'],
+                {
+                    name: 'ragdoll.gif',
+                    description: 'Ragdoll physics demonstration with character animation.',
+                    preview: 'assets/scripting/ragdoll.gif'
+                }
             ]
         },
         vfxing: {
