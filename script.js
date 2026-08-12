@@ -68,11 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: '008',
                     description: '',
                     preview: 'assets/building/academy-facade.png'
-                },
-                {
-                    name: '009',
-                    description: '',
-                    preview: 'assets/building/puyol_card.png'
                 }
             ]
         },
@@ -106,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'building/sunny-plaza.png',
         'building/checkered-lounge.png',
         'building/academy-facade.png',
-        'building/puyol_card.png',
         'scripting/molotov.gif',
         'scripting/ragdoll.gif'
     ];
