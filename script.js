@@ -83,6 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: 'Ragdoll',
                     description: '',
                     preview: 'assets/scripting/ragdoll.gif'
+                },
+                {
+                    name: 'Laser',
+                    description: '',
+                    preview: 'assets/scripting/laser.gif'
+                },
+                {
+                    name: 'Bézier Projectile',
+                    description: '',
+                    preview: 'assets/scripting/bezier-projectile.gif'
                 }
             ]
         },
@@ -102,7 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'building/checkered-lounge.png',
         'building/academy-facade.png',
         'scripting/molotov.gif',
-        'scripting/ragdoll.gif'
+        'scripting/ragdoll.gif',
+        'scripting/laser.gif',
+        'scripting/bezier-projectile.gif'
     ];
 
     function updateEggDisplay() {
