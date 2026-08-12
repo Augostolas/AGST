@@ -27,17 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             files: [
                 {
                     name: '001',
-                    description: '',
-                    preview: null
-                },
-                {
-                    name: '002',
-                    description: '',
-                    preview: null
-                },
-                {
-                    name: '003',
-                    description: '',
+                    description: 'anime_eye',
                     preview: 'assets/animating/anime_eye.gif'
                 }
             ]
@@ -96,51 +86,20 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'Scripting',
             files: [
                 {
-                    name: '001',
+                    name: 'Molotov',
                     description: '',
-                    preview: 'assets/scripting/001.gif'
+                    preview: 'assets/scripting/molotov.gif'
                 },
                 {
-                    name: '002',
-                    description: '',
-                    preview: null
-                },
-                {
-                    name: '003',
-                    description: '',
-                    preview: null
-                },
-                {
-                    name: '004',
+                    name: 'Ragdoll',
                     description: '',
                     preview: 'assets/scripting/ragdoll.gif'
-                },
-                {
-                    name: '005',
-                    description: '',
-                    preview: null
                 }
             ]
         },
         vfxing: {
             title: 'VFXing',
-            files: [
-                {
-                    name: '001',
-                    description: '',
-                    preview: null
-                },
-                {
-                    name: '002',
-                    description: '',
-                    preview: null
-                },
-                {
-                    name: '003',
-                    description: '',
-                    preview: null
-                }
-            ]
+            files: []
         }
     };
 
@@ -155,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'building/checkered-lounge.png',
         'building/academy-facade.png',
         'building/puyol_card.png',
-        'scripting/001.gif',
+        'scripting/molotov.gif',
         'scripting/ragdoll.gif'
     ];
 
@@ -545,7 +504,7 @@ cls               clear the terminal</pre>
         const assetLog = document.getElementById('assetLog');
         let dotCount = 0;
         const startedAt = Date.now();
-        const totalMs = 20000;
+        const totalMs = 15000;
 
         state.dotTimer = setInterval(() => {
             dotCount = (dotCount + 1) % 4;
