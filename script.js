@@ -20,18 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'Animating',
             files: [
                 {
-                    name: '001.loop_showcase.mp4',
-                    description: 'Character loop previews and motion timing.',
+                    name: '001',
+                    description: '',
                     preview: null
                 },
                 {
-                    name: '002.rig_notes.txt',
-                    description: 'Pose planning, blocking passes, and polish checklist.',
+                    name: '002',
+                    description: '',
                     preview: null
                 },
                 {
-                    name: '003.anime_eye.gif',
-                    description: 'Stylized animation asset preview.',
+                    name: '003',
+                    description: '',
                     preview: 'assets/animating/anime_eye.gif'
                 }
             ]
@@ -40,48 +40,48 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'Building',
             files: [
                 {
-                    name: '001.destroyed-building.png',
-                    description: 'Damaged city block with rubble, heavy orange lighting, and street dressing.',
+                    name: '001',
+                    description: '',
                     preview: 'assets/building/destroyed-building.png'
                 },
                 {
-                    name: '002.street-storefront.png',
-                    description: 'Night storefront facade with balconies, lamps, signage, and warm fog.',
+                    name: '002',
+                    description: '',
                     preview: 'assets/building/street-storefront.png'
                 },
                 {
-                    name: '003.red-temple-arena.png',
-                    description: 'Red-lit rocky arena and temple path with strong mood lighting.',
+                    name: '003',
+                    description: '',
                     preview: 'assets/building/red-temple-arena.png'
                 },
                 {
-                    name: '004.red-interior-room.png',
-                    description: 'Stylized red interior set with dining area, kitchen props, and custom lighting.',
+                    name: '004',
+                    description: '',
                     preview: 'assets/building/red-interior-room.png'
                 },
                 {
-                    name: '005.sandstone-street.png',
-                    description: 'Sandstone street build with arches, bridges, and warm daylight atmosphere.',
+                    name: '005',
+                    description: '',
                     preview: 'assets/building/sandstone-street.png'
                 },
                 {
-                    name: '006.sunny-plaza.png',
-                    description: 'Bright plaza scene with palm trees, colorful buildings, and open staging.',
+                    name: '006',
+                    description: '',
                     preview: 'assets/building/sunny-plaza.png'
                 },
                 {
-                    name: '007.checkered-lounge.png',
-                    description: 'Red-and-black lounge interior with checker panels and layered seating zones.',
+                    name: '007',
+                    description: '',
                     preview: 'assets/building/checkered-lounge.png'
                 },
                 {
-                    name: '008.academy-facade.png',
-                    description: 'Large academy facade with arched windows, tower, clock, and long exterior wall.',
+                    name: '008',
+                    description: '',
                     preview: 'assets/building/academy-facade.png'
                 },
                 {
-                    name: '009.puyol_card.png',
-                    description: 'Character card portrait with detailed shading and professional composition.',
+                    name: '009',
+                    description: '',
                     preview: 'assets/building/puyol_card.png'
                 }
             ]
@@ -90,23 +90,23 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'Scripting',
             files: [
                 {
-                    name: '001.client_controller.lua',
-                    description: 'Interactive client systems and UI behavior.',
+                    name: '001',
+                    description: '',
                     preview: null
                 },
                 {
-                    name: '002.server_services.lua',
-                    description: 'Clean backend logic and game/service flow.',
+                    name: '002',
+                    description: '',
                     preview: null
                 },
                 {
-                    name: '003.cmd_portfolio.js',
-                    description: 'Terminal-style web interaction layer.',
+                    name: '003',
+                    description: '',
                     preview: null
                 },
                 {
-                    name: '004.ragdoll.gif',
-                    description: 'Ragdoll physics demonstration with character animation.',
+                    name: '004',
+                    description: '',
                     preview: 'assets/scripting/ragdoll.gif'
                 }
             ]
@@ -115,18 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'VFXing',
             files: [
                 {
-                    name: '001.impact_burst.vfx',
-                    description: 'Hit effects, flashes, and timing passes.',
+                    name: '001',
+                    description: '',
                     preview: null
                 },
                 {
-                    name: '002.aura_shader.fx',
-                    description: 'Character aura and animated material experiments.',
+                    name: '002',
+                    description: '',
                     preview: null
                 },
                 {
-                    name: '003.particle_stack.txt',
-                    description: 'Emitter setups, colors, and blend notes.',
+                    name: '003',
+                    description: '',
                     preview: null
                 }
             ]
@@ -134,12 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadingAssets = [
-        'animating/loop_showcase.mp4',
-        'animating/rig_notes.txt',
         'animating/anime_eye.gif',
-        'building/map_blockout.rbxm',
-        'building/interior_set.obj',
-        'building/lighting_pass.txt',
         'building/destroyed-building.png',
         'building/street-storefront.png',
         'building/red-temple-arena.png',
@@ -148,12 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'building/sunny-plaza.png',
         'building/checkered-lounge.png',
         'building/academy-facade.png',
-        'scripting/client_controller.lua',
-        'scripting/server_services.lua',
-        'scripting/cmd_portfolio.js',
-        'vfxing/impact_burst.vfx',
-        'vfxing/aura_shader.fx',
-        'vfxing/particle_stack.txt'
+        'building/puyol_card.png',
+        'scripting/ragdoll.gif'
     ];
 
     function getEggCount() {
