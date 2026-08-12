@@ -283,8 +283,11 @@ body {
 .egg-counter-row {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
+    justify-content: center;
     gap: 8px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    color: var(--term-green);
 }
 
 .egg-counter-row strong {

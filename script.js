@@ -3,6 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const dynamicContent = document.getElementById('dynamicContent');
     const matrixCanvas = document.getElementById('matrixCanvas');
     const eggCounter = document.getElementById('eggCounter');
+    const easterEggsFound = {
+        admin: false,
+        matrix: false,
+        '123': false
+    };
+    let easterEggCount = 0;
 
     const state = {
         history: [],
@@ -92,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 {
                     name: '001',
                     description: '',
-                    preview: null
+                    preview: 'assets/scripting/001.gif'
                 },
                 {
                     name: '002',
@@ -108,6 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: '004',
                     description: '',
                     preview: 'assets/scripting/ragdoll.gif'
+                },
+                {
+                    name: '005',
+                    description: '',
+                    preview: null
                 }
             ]
         },
@@ -144,22 +155,26 @@ document.addEventListener('DOMContentLoaded', () => {
         'building/checkered-lounge.png',
         'building/academy-facade.png',
         'building/puyol_card.png',
+        'scripting/001.gif',
         'scripting/ragdoll.gif'
     ];
 
-    function getEggCount() {
-        return Number.parseInt(localStorage.getItem('portfolioAdminDiscoveries') || '0', 10) || 0;
+    function updateEggDisplay() {
+        const found = Object.values(easterEggsFound).filter(Boolean).length;
+        if (eggCounter) eggCounter.textContent = `${found}/3 Easter egg's found`;
     }
 
-    function setEggCount(value) {
-        localStorage.setItem('portfolioAdminDiscoveries', String(value));
-        if (eggCounter) eggCounter.textContent = String(value);
-    }
-
-    function incrementEggCount() {
-        const nextCount = getEggCount() + 1;
-        setEggCount(nextCount);
-        return nextCount;
+    function markEasterEggFound(name) {
+        if (!easterEggsFound[name]) {
+            easterEggsFound[name] = true;
+            updateEggDisplay();
+            
+            // Sync to global counter if Firebase is enabled
+            if (typeof incrementGlobalDiscoveryCount === 'function') {
+                incrementGlobalDiscoveryCount();
+            }
+        }
+        updateEggDisplay();
     }
 
     function escapeHTML(value) {
@@ -336,6 +351,7 @@ open vfxing       inspect VFX files
 contact           show contact info
 prices            show price tabs
 admin             hidden command
+123               hidden command
 matrix            toggle matrix mode
 cls               clear the terminal</pre>
 </div>`;
@@ -343,18 +359,13 @@ cls               clear the terminal</pre>
 
     function runAdminEasterEgg(command) {
         if (state.adminTimer) clearTimeout(state.adminTimer);
-        const discoveries = incrementEggCount();
-        
-        // Sync to global counter if Firebase is enabled
-        if (typeof incrementGlobalDiscoveryCount === 'function') {
-            incrementGlobalDiscoveryCount();
-        }
+        markEasterEggFound('admin');
         
         document.body.classList.add('rgb-party');
         appendEntry(command, `
 <div class="admin-message">
     Yo, that was actually a pretty solid dig.
-    RGB mode is unlocked for 15 seconds. Your discovery #${discoveries}.
+    RGB mode is unlocked for 15 seconds.
 </div>`);
 
         state.adminTimer = setTimeout(() => {
@@ -363,11 +374,20 @@ cls               clear the terminal</pre>
         }, 15000);
     }
 
+    function run123EasterEgg(command) {
+        markEasterEggFound('123');
+        appendEntry(command, `
+<div class="admin-message">
+    Easy as 1-2-3! You found another one.
+</div>`);
+    }
+
     function toggleMatrix(command) {
         state.matrixActive = !state.matrixActive;
         if (state.matrixActive) {
             matrixCanvas.style.display = 'block';
             startMatrixRain();
+            markEasterEggFound('matrix');
         } else {
             matrixCanvas.style.display = 'none';
             if (window.matrixInterval) clearInterval(window.matrixInterval);
@@ -453,6 +473,11 @@ cls               clear the terminal</pre>
 
         if (cmd === 'admin') {
             runAdminEasterEgg(command);
+            return;
+        }
+
+        if (cmd === '123') {
+            run123EasterEgg(command);
             return;
         }
 
@@ -627,7 +652,7 @@ cls               clear the terminal</pre>
         if (state.matrixActive) startMatrixRain();
     });
 
-    setEggCount(getEggCount());
+    updateEggDisplay();
     cliInput.focus();
     runStartupSequence();
 });

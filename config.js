@@ -28,10 +28,9 @@ if (firebaseEnabled && firebaseConfig.apiKey !== "YOUR_API_KEY") {
         db.ref('discoveries/global_count').on('value', (snapshot) => {
             if (snapshot.exists()) {
                 globalDiscoveryCount = snapshot.val();
-                const counter = document.getElementById('globalEggCounter');
-                if (counter) {
-                    counter.textContent = String(globalDiscoveryCount);
-                }
+                document.dispatchEvent(new CustomEvent('globalEggUpdate', {
+                    detail: { count: globalDiscoveryCount }
+                }));
             }
         });
     } catch (error) {
