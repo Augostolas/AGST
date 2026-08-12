@@ -24,13 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const folders = {
         animating: {
             title: 'Animating',
-            files: [
-                {
-                    name: '001',
-                    description: 'anime_eye',
-                    preview: 'assets/animating/anime_eye.gif'
-                }
-            ]
+            files: []
         },
         building: {
             title: 'Building',
@@ -104,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const loadingAssets = [
-        'animating/anime_eye.gif',
         'building/destroyed-building.png',
         'building/street-storefront.png',
         'building/red-temple-arena.png',
