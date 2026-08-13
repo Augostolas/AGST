@@ -27,6 +27,7 @@ body {
 
 body {
     overflow-x: hidden;
+    position: relative;
 }
 
 .crt-overlay {
@@ -41,6 +42,8 @@ body {
 }
 
 .terminal-screen {
+    position: relative;
+    z-index: 2;
     min-height: 100vh;
     max-width: 980px;
     margin: 0 auto;
@@ -349,7 +352,13 @@ body {
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: 9000;
+    z-index: 0;
+    opacity: 0.42;
+}
+
+body.matrix-unlocked .terminal-screen,
+body.matrix-unlocked .cli-input-area {
+    background: rgba(0, 0, 0, 0.86);
 }
 
 body.rgb-party {

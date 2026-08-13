@@ -77,22 +77,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 {
                     name: 'Molotov',
                     description: '',
-                    preview: 'assets/scripting/molotov.gif'
+                    preview: 'assets/scripting/molotov.webp'
                 },
                 {
                     name: 'Ragdoll',
                     description: '',
-                    preview: 'assets/scripting/ragdoll.gif'
+                    preview: 'assets/scripting/ragdoll.webp'
                 },
                 {
                     name: 'Laser',
                     description: '',
-                    preview: 'assets/scripting/laser.gif'
+                    preview: 'assets/scripting/laser.webp'
                 },
                 {
-                    name: 'Bézier Projectile',
+                    name: 'Bezier Projectile',
                     description: '',
-                    preview: 'assets/scripting/bezier-projectile.gif'
+                    preview: 'assets/scripting/bezier-projectile.webp'
                 }
             ]
         },
@@ -111,15 +111,15 @@ document.addEventListener('DOMContentLoaded', () => {
         'building/sunny-plaza.png',
         'building/checkered-lounge.png',
         'building/academy-facade.png',
-        'scripting/molotov.gif',
-        'scripting/ragdoll.gif',
-        'scripting/laser.gif',
-        'scripting/bezier-projectile.gif'
+        'scripting/molotov.webp',
+        'scripting/ragdoll.webp',
+        'scripting/laser.webp',
+        'scripting/bezier-projectile.webp'
     ];
 
     function updateEggDisplay() {
         const found = Object.values(easterEggsFound).filter(Boolean).length;
-        if (eggCounter) eggCounter.textContent = `${found}/3 Easter egg's found`;
+        if (eggCounter) eggCounter.textContent = `${found}/3 Easter eggs found`;
     }
 
     function markEasterEggFound(name) {
@@ -130,6 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Sync to global counter if Firebase is enabled
             if (typeof incrementGlobalDiscoveryCount === 'function') {
                 incrementGlobalDiscoveryCount();
+            }
+
+            if (Object.values(easterEggsFound).every(Boolean)) {
+                unlockMatrixBackground();
             }
         }
         updateEggDisplay();
@@ -169,14 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollToPrompt();
     }
 
-    function outputCommand(options, command, outputHTML) {
-        if (options.silent) {
-            setAppOutput(outputHTML);
-        } else {
-            appendEntry(command, outputHTML);
-        }
-    }
-
     function renderTabs(active = state.activeTab) {
         const tabs = [
             ['projects', 'Projects'],
@@ -186,8 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return `
 <div class="cmd-tabs" role="tablist" aria-label="Client app tabs">
-    ${tabs.map(([command, label]) => `
-        <button class="cmd-tab ${active === command ? 'active' : ''}" data-command="${command}" role="tab" aria-selected="${active === command}">
+    ${tabs.map(([view, label]) => `
+        <button class="cmd-tab ${active === view ? 'active' : ''}" data-view="${view}" role="tab" aria-selected="${active === view}">
             [${label}]
         </button>
     `).join('')}
@@ -219,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return `
             <a class="preview-card" href="${escapeHTML(artifact.preview)}" target="_blank" rel="noopener">
-                <img src="${escapeHTML(artifact.preview)}" alt="${escapeHTML(artifact.description)}">
+                <img src="${escapeHTML(artifact.preview)}" alt="${escapeHTML(artifact.name)}" loading="eager" decoding="async">
                 <span class="preview-name">${escapeHTML(artifact.name)}</span>
                 <span class="preview-desc">${escapeHTML(artifact.description)}</span>
             </a>`;
@@ -227,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderProjects(folderKey = null) {
         const folderRows = Object.entries(folders).map(([key, folder]) => `
-            <button class="folder-row ${folderKey === key ? 'active' : ''}" data-command="open ${key}">
+            <button class="folder-row ${folderKey === key ? 'active' : ''}" data-folder="${key}">
                 <span class="folder-icon">[DIR]</span>
                 <span>${folder.title}</span>
             </button>
@@ -296,25 +292,6 @@ ${renderTabs('prices')}
 </div>`;
     }
 
-    function renderHelp() {
-        return `
-<div class="content-section">
-    <pre class="ascii-header">COMMANDS
---------
-projects          open the project file manager
-open animating    inspect animation files
-open building     inspect building files
-open scripting    inspect scripting files
-open vfxing       inspect VFX files
-contact           show contact info
-prices            show price tabs
-admin             hidden command
-123               hidden command
-matrix            toggle matrix mode
-cls               clear the terminal</pre>
-</div>`;
-    }
-
     function runAdminEasterEgg(command) {
         if (state.adminTimer) clearTimeout(state.adminTimer);
         markEasterEggFound('admin');
@@ -340,94 +317,18 @@ cls               clear the terminal</pre>
 </div>`);
     }
 
-    function toggleMatrix(command) {
-        state.matrixActive = !state.matrixActive;
-        if (state.matrixActive) {
-            matrixCanvas.style.display = 'block';
-            startMatrixRain();
-            markEasterEggFound('matrix');
-        } else {
-            matrixCanvas.style.display = 'none';
-            if (window.matrixInterval) clearInterval(window.matrixInterval);
-        }
-        appendEntry(command, `<div class="content-section"><p>Matrix mode ${state.matrixActive ? 'enabled' : 'disabled'}.</p></div>`);
+    function discoverMatrix(command) {
+        markEasterEggFound('matrix');
+        appendEntry(command, '<div class="content-section"><p>Follow the white rabbit.</p></div>');
     }
 
-    function processCommand(rawCommand, options = {}) {
+    function processEasterEgg(rawCommand) {
         const command = rawCommand.trim();
         if (!command) return;
 
-        if (!options.skipHistory && !options.silent) {
-            state.history.push(command);
-            state.historyIndex = state.history.length;
-        }
-
-        const [cmd, ...rest] = command.toLowerCase().split(/\s+/);
-        const arg = rest.join(' ');
-
-        if (cmd === 'cls' || cmd === 'clear') {
-            dynamicContent.innerHTML = '';
-            return;
-        }
-
-        if (cmd === 'help') {
-            outputCommand(options, command, renderHelp());
-            return;
-        }
-
-        if (cmd === 'client_app.exe' || cmd === 'client_app') {
-            outputCommand(options, command, `
-<div class="content-section">
-    <p>Installing client shell................ OK</p>
-    <p>Mounting tabs: Projects Contact Prices. OK</p>
-    <p>Preparing file manager................ OK</p>
-    <p>Ready.</p>
-</div>`);
-            return;
-        }
-
-        if (cmd === 'tabs') {
-            outputCommand(options, command, renderTabs(state.activeTab));
-            return;
-        }
-
-        if (cmd === 'projects' || cmd === 'project' || cmd === 'dir') {
-            state.activeTab = 'projects';
-            state.activeFolder = null;
-            outputCommand(options, command, renderProjects());
-            return;
-        }
-
-        if (cmd === 'open') {
-            const folder = arg.replace(/\s+/g, '');
-            if (folders[folder]) {
-                state.activeTab = 'projects';
-                state.activeFolder = folder;
-                outputCommand(options, command, renderProjects(folder));
-            } else {
-                outputCommand(options, command, `<div class="content-section error-line">Folder not found: ${escapeHTML(arg || '(empty)')}</div>`);
-            }
-            return;
-        }
-
-        if (folders[cmd]) {
-            state.activeTab = 'projects';
-            state.activeFolder = cmd;
-            outputCommand(options, command, renderProjects(cmd));
-            return;
-        }
-
-        if (cmd === 'contact') {
-            state.activeTab = 'contact';
-            outputCommand(options, command, renderContact());
-            return;
-        }
-
-        if (cmd === 'prices' || cmd === 'pricing') {
-            state.activeTab = 'prices';
-            outputCommand(options, command, renderPrices());
-            return;
-        }
+        state.history.push(command);
+        state.historyIndex = state.history.length;
+        const cmd = command.toLowerCase();
 
         if (cmd === 'admin') {
             runAdminEasterEgg(command);
@@ -440,35 +341,11 @@ cls               clear the terminal</pre>
         }
 
         if (cmd === 'matrix') {
-            toggleMatrix(command);
+            discoverMatrix(command);
             return;
         }
 
-        if (cmd === 'boot' || cmd === 'install') {
-            runStartupSequence();
-            return;
-        }
-
-        appendEntry(command, `<div class="content-section error-line">Command not found. Type HELP.</div>`);
-    }
-
-    function typeCommand(command, delay = 120) {
-        return new Promise(resolve => {
-            cliInput.value = '';
-            let index = 0;
-            const tick = () => {
-                cliInput.value = command.slice(0, index);
-                index += 1;
-                if (index <= command.length + 1) {
-                    setTimeout(tick, Math.max(12, delay / Math.max(command.length, 1)));
-                } else {
-                    cliInput.value = '';
-                    processCommand(command, { skipHistory: true });
-                    resolve();
-                }
-            };
-            tick();
-        });
+        appendEntry(command, '<div class="content-section error-line">No easter egg found.</div>');
     }
 
     function shuffle(items) {
@@ -541,7 +418,7 @@ cls               clear the terminal</pre>
         if (event.key === 'Enter') {
             const command = cliInput.value;
             cliInput.value = '';
-            processCommand(command);
+            processEasterEgg(command);
             return;
         }
 
@@ -566,19 +443,34 @@ cls               clear the terminal</pre>
     });
 
     document.addEventListener('click', event => {
-        const commandButton = event.target.closest('[data-command]');
-        if (commandButton) {
-            processCommand(commandButton.dataset.command, { silent: true });
+        const tabButton = event.target.closest('[data-view]');
+        if (tabButton) {
+            state.activeTab = tabButton.dataset.view;
+            state.activeFolder = null;
+            const views = {
+                projects: () => renderProjects(),
+                contact: renderContact,
+                prices: renderPrices
+            };
+            setAppOutput(views[state.activeTab]());
+        }
+
+        const folderButton = event.target.closest('[data-folder]');
+        if (folderButton && folders[folderButton.dataset.folder]) {
+            state.activeTab = 'projects';
+            state.activeFolder = folderButton.dataset.folder;
+            setAppOutput(renderProjects(state.activeFolder));
         }
         cliInput.focus();
     });
 
-    document.addEventListener('keydown', event => {
-        if (event.key === 'F1') {
-            event.preventDefault();
-            processCommand('help');
-        }
-    });
+    function unlockMatrixBackground() {
+        if (state.matrixActive) return;
+        state.matrixActive = true;
+        document.body.classList.add('matrix-unlocked');
+        matrixCanvas.style.display = 'block';
+        startMatrixRain();
+    }
 
     function startMatrixRain() {
         const ctx = matrixCanvas.getContext('2d');
