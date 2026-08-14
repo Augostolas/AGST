@@ -346,7 +346,7 @@ ${renderTabs('prices')}
         startBackgroundMusic();
         appendEntry(command, `
 <div class="geedorah-message">
-    KING GEEDORAH SIGNAL ACCEPTED. WORLD PALETTE OVERRIDDEN.
+    Good taste mate :)
 </div>`);
     }
 
@@ -552,7 +552,7 @@ ${renderTabs('prices')}
     });
 
     updateEggDisplay();
-    if (backgroundMusic) backgroundMusic.volume = 0.035;
+    if (backgroundMusic) backgroundMusic.volume = 0.0105;
     cliInput.focus();
     runStartupSequence();
 });
