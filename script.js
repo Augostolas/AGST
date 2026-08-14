@@ -3,10 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const dynamicContent = document.getElementById('dynamicContent');
     const matrixCanvas = document.getElementById('matrixCanvas');
     const eggCounter = document.getElementById('eggCounter');
+    const backgroundMusic = document.getElementById('backgroundMusic');
     const easterEggsFound = {
         admin: false,
         matrix: false,
-        '123': false
+        '123': false,
+        geedorah: false
     };
     let easterEggCount = 0;
 
@@ -98,7 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         vfxing: {
             title: 'VFXing',
-            files: []
+            files: [
+                {
+                    name: 'Crimson Aura',
+                    description: '',
+                    preview: 'assets/vfxing/crimson-aura.webp'
+                },
+                {
+                    name: 'Golden Aura',
+                    description: '',
+                    preview: 'assets/vfxing/golden-aura.webp'
+                }
+            ]
         }
     };
 
@@ -114,12 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
         'scripting/molotov.webp',
         'scripting/ragdoll.webp',
         'scripting/laser.webp',
-        'scripting/bezier-projectile.webp'
+        'scripting/bezier-projectile.webp',
+        'vfxing/crimson-aura.webp',
+        'vfxing/golden-aura.webp'
     ];
 
     function updateEggDisplay() {
         const found = Object.values(easterEggsFound).filter(Boolean).length;
-        if (eggCounter) eggCounter.textContent = `${found}/3 Easter eggs found`;
+        if (eggCounter) eggCounter.textContent = `${found}/4 Easter eggs found`;
     }
 
     function markEasterEggFound(name) {
@@ -322,13 +337,31 @@ ${renderTabs('prices')}
         appendEntry(command, '<div class="content-section"><p>Follow the white rabbit.</p></div>');
     }
 
+    function runGeedorahEasterEgg(command) {
+        markEasterEggFound('geedorah');
+        document.body.classList.remove('rgb-party');
+        document.body.classList.add('geedorah-mode');
+        startBackgroundMusic();
+        appendEntry(command, `
+<div class="geedorah-message">
+    KING GEEDORAH SIGNAL ACCEPTED. WORLD PALETTE OVERRIDDEN.
+</div>`);
+    }
+
+    function startBackgroundMusic() {
+        if (!backgroundMusic) return;
+        backgroundMusic.volume = 0.1;
+        const playback = backgroundMusic.play();
+        if (playback) playback.catch(() => {});
+    }
+
     function processEasterEgg(rawCommand) {
         const command = rawCommand.trim();
         if (!command) return;
 
         state.history.push(command);
         state.historyIndex = state.history.length;
-        const cmd = command.toLowerCase();
+        const cmd = command.toLowerCase().replace(/\s+/g, ' ');
 
         if (cmd === 'admin') {
             runAdminEasterEgg(command);
@@ -342,6 +375,11 @@ ${renderTabs('prices')}
 
         if (cmd === 'matrix') {
             discoverMatrix(command);
+            return;
+        }
+
+        if (cmd === 'king geedorah') {
+            runGeedorahEasterEgg(command);
             return;
         }
 
@@ -443,6 +481,7 @@ ${renderTabs('prices')}
     });
 
     document.addEventListener('click', event => {
+        startBackgroundMusic();
         const tabButton = event.target.closest('[data-view]');
         if (tabButton) {
             state.activeTab = tabButton.dataset.view;
@@ -463,6 +502,8 @@ ${renderTabs('prices')}
         }
         cliInput.focus();
     });
+
+    document.addEventListener('keydown', startBackgroundMusic, { once: true });
 
     function unlockMatrixBackground() {
         if (state.matrixActive) return;
@@ -486,7 +527,7 @@ ${renderTabs('prices')}
         window.matrixInterval = setInterval(() => {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
             ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-            ctx.fillStyle = '#00ff66';
+            ctx.fillStyle = document.body.classList.contains('geedorah-mode') ? '#ff324c' : '#00ff66';
             ctx.font = `${fontSize}px monospace`;
 
             drops.forEach((drop, index) => {

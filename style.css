@@ -30,6 +30,46 @@ body {
     position: relative;
 }
 
+.terminal-screen,
+.cli-input-area,
+.cmd-tab,
+.folder-row,
+.file-manager,
+.fm-toolbar,
+.folder-list,
+.preview-card,
+.price-card,
+.egg-counter-panel,
+.terminal-screen * {
+    transition:
+        color 1.7s ease,
+        background-color 1.7s ease,
+        border-color 1.7s ease,
+        box-shadow 1.7s ease,
+        text-shadow 1.7s ease;
+}
+
+body.geedorah-mode {
+    --bg-color: #140003;
+    --term-green: #ff5267;
+    --term-green-bright: #fff8f8;
+    --term-green-dim: #9f172a;
+    --term-red: #ffffff;
+}
+
+body.geedorah-mode,
+body.geedorah-mode .terminal-screen,
+body.geedorah-mode .cli-input-area {
+    background-color: #140003;
+}
+
+body.geedorah-mode .crt-overlay {
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.018) 50%, rgba(66, 0, 8, 0.24) 50%),
+        linear-gradient(90deg, rgba(255, 0, 32, 0.055), rgba(255, 255, 255, 0.02), rgba(150, 0, 20, 0.055));
+    background-size: 100% 3px, 6px 100%;
+}
+
 .crt-overlay {
     position: fixed;
     inset: 0;
@@ -354,6 +394,15 @@ body {
     pointer-events: none;
     z-index: 0;
     opacity: 0.42;
+}
+
+.geedorah-message {
+    border: 1px solid #fff;
+    color: #fff;
+    background: rgba(122, 0, 18, 0.22);
+    box-shadow: 0 0 18px rgba(255, 32, 62, 0.42);
+    padding: 10px;
+    letter-spacing: 0.04em;
 }
 
 body.matrix-unlocked .terminal-screen,
