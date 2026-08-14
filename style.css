@@ -50,23 +50,23 @@ body {
 }
 
 body.geedorah-mode {
-    --bg-color: #140003;
-    --term-green: #ff5267;
-    --term-green-bright: #fff8f8;
-    --term-green-dim: #9f172a;
-    --term-red: #ffffff;
+    --bg-color: #ffffff;
+    --term-green: #d71938;
+    --term-green-bright: #980019;
+    --term-green-dim: #ec8290;
+    --term-red: #b00020;
 }
 
 body.geedorah-mode,
 body.geedorah-mode .terminal-screen,
 body.geedorah-mode .cli-input-area {
-    background-color: #140003;
+    background-color: #ffffff;
 }
 
 body.geedorah-mode .crt-overlay {
     background:
-        linear-gradient(rgba(255, 255, 255, 0.018) 50%, rgba(66, 0, 8, 0.24) 50%),
-        linear-gradient(90deg, rgba(255, 0, 32, 0.055), rgba(255, 255, 255, 0.02), rgba(150, 0, 20, 0.055));
+        linear-gradient(rgba(255, 255, 255, 0) 50%, rgba(130, 0, 20, 0.1) 50%),
+        linear-gradient(90deg, rgba(255, 0, 32, 0.045), rgba(255, 255, 255, 0.01), rgba(150, 0, 20, 0.045));
     background-size: 100% 3px, 6px 100%;
 }
 
@@ -397,9 +397,9 @@ body.geedorah-mode .crt-overlay {
 }
 
 .geedorah-message {
-    border: 1px solid #fff;
-    color: #fff;
-    background: rgba(122, 0, 18, 0.22);
+    border: 1px solid #b00020;
+    color: #980019;
+    background: rgba(255, 230, 234, 0.78);
     box-shadow: 0 0 18px rgba(255, 32, 62, 0.42);
     padding: 10px;
     letter-spacing: 0.04em;
@@ -408,6 +408,30 @@ body.geedorah-mode .crt-overlay {
 body.matrix-unlocked .terminal-screen,
 body.matrix-unlocked .cli-input-area {
     background: rgba(0, 0, 0, 0.86);
+}
+
+body.geedorah-mode.matrix-unlocked .terminal-screen,
+body.geedorah-mode.matrix-unlocked .cli-input-area {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+#geedorahFlash {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+}
+
+#geedorahFlash.active {
+    animation: geedorahFlash 0.72s ease-out both;
+}
+
+@keyframes geedorahFlash {
+    0% { opacity: 0; background: #b80021; }
+    18% { opacity: 0.86; background: #dc1738; }
+    48% { opacity: 0.96; background: #ffffff; }
+    100% { opacity: 0; background: #ffffff; }
 }
 
 body.rgb-party {

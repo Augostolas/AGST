@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const matrixCanvas = document.getElementById('matrixCanvas');
     const eggCounter = document.getElementById('eggCounter');
     const backgroundMusic = document.getElementById('backgroundMusic');
+    const geedorahFlash = document.getElementById('geedorahFlash');
     const easterEggsFound = {
         admin: false,
         matrix: false,
@@ -103,12 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
             files: [
                 {
                     name: 'Crimson Aura',
-                    description: '',
+                    hideLabel: true,
                     preview: 'assets/vfxing/crimson-aura.webp'
                 },
                 {
                     name: 'Golden Aura',
-                    description: '',
+                    hideLabel: true,
                     preview: 'assets/vfxing/golden-aura.webp'
                 }
             ]
@@ -231,8 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return `
             <a class="preview-card" href="${escapeHTML(artifact.preview)}" target="_blank" rel="noopener">
                 <img src="${escapeHTML(artifact.preview)}" alt="${escapeHTML(artifact.name)}" loading="eager" decoding="async">
-                <span class="preview-name">${escapeHTML(artifact.name)}</span>
-                <span class="preview-desc">${escapeHTML(artifact.description)}</span>
+                ${artifact.hideLabel ? '' : `<span class="preview-name">${escapeHTML(artifact.name)}</span>`}
+                ${artifact.description ? `<span class="preview-desc">${escapeHTML(artifact.description)}</span>` : ''}
             </a>`;
     }
 
@@ -341,6 +342,7 @@ ${renderTabs('prices')}
         markEasterEggFound('geedorah');
         document.body.classList.remove('rgb-party');
         document.body.classList.add('geedorah-mode');
+        playGeedorahFlash();
         startBackgroundMusic();
         appendEntry(command, `
 <div class="geedorah-message">
@@ -350,9 +352,15 @@ ${renderTabs('prices')}
 
     function startBackgroundMusic() {
         if (!backgroundMusic) return;
-        backgroundMusic.volume = 0.1;
         const playback = backgroundMusic.play();
         if (playback) playback.catch(() => {});
+    }
+
+    function playGeedorahFlash() {
+        if (!geedorahFlash) return;
+        geedorahFlash.classList.remove('active');
+        void geedorahFlash.offsetWidth;
+        geedorahFlash.classList.add('active');
     }
 
     function processEasterEgg(rawCommand) {
@@ -544,6 +552,7 @@ ${renderTabs('prices')}
     });
 
     updateEggDisplay();
+    if (backgroundMusic) backgroundMusic.volume = 0.035;
     cliInput.focus();
     runStartupSequence();
 });
