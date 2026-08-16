@@ -232,25 +232,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderProjects(folderKey = null) {
         const folderRows = Object.entries(folders).map(([key, folder]) => `
-            <button class="folder-row ${folderKey === key ? 'active' : ''}" data-folder="${key}">
+            <button class="folder-row ${key === 'animating' ? 'animating-folder' : ''} ${folderKey === key ? 'active' : ''}" data-folder="${key}">
                 <span class="folder-icon" aria-hidden="true">
                     <img class="folder-icon-green" src="assets/ui/folder-green.png" alt="">
                     <img class="folder-icon-red" src="assets/ui/folder-red.png" alt="">
                 </span>
-                <span>${folder.title}</span>
+                <span class="folder-title">${folder.title}</span>
+                ${key === 'animating' ? '<span class="animation-gear" aria-hidden="true"></span>' : ''}
             </button>
         `).join('');
 
         const selected = folderKey ? folders[folderKey] : null;
-        const animatingActive = folderKey === 'animating';
         const hasPreviews = selected?.files.some(file => file.preview);
-        const fileRows = animatingActive ? `
-            <div class="animating-placeholder">
-                <span class="animation-gear" aria-hidden="true"></span>
-                <span class="animation-state">ANIMATION REEL // PROCESSING</span>
-                <span class="animation-note">Keyframes are still being wired.</span>
-            </div>
-        ` : selected?.files.length ? `
+        const fileRows = selected?.files.length ? `
             <div class="${hasPreviews ? 'preview-grid' : 'plain-file-list'}">
                 ${selected.files.map(renderProjectFile).join('')}
             </div>
@@ -270,7 +264,7 @@ ${renderTabs('projects')}
         <div class="folder-list">
             ${folderRows}
         </div>
-        <div class="file-list ${animatingActive ? 'animating-mode' : ''}">
+        <div class="file-list">
             ${fileRows}
         </div>
     </div>
