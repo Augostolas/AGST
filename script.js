@@ -5,14 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const eggCounter = document.getElementById('eggCounter');
     const backgroundMusic = document.getElementById('backgroundMusic');
     const geedorahFlash = document.getElementById('geedorahFlash');
+    const audioToggle = document.getElementById('audioToggle');
+    const appStatus = document.getElementById('appStatus');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const easterEggsFound = {
         admin: false,
         matrix: false,
         '123': false,
         geedorah: false
     };
-    let easterEggCount = 0;
-
+    let discoveryModulePromise = null;
     const state = {
         history: [],
         historyIndex: 0,
@@ -20,13 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
         activeFolder: null,
         matrixActive: false,
         adminTimer: null,
-        loadingTimer: null,
-        dotTimer: null
+        matrixFrame: null,
+        matrixLastFrame: 0,
+        matrixScene: null
     };
 
     const folders = {
         animating: {
             title: 'Animating',
+            emptyMessage: 'Coming soon — animation reels are being prepared.',
             files: []
         },
         building: {
@@ -34,42 +38,42 @@ document.addEventListener('DOMContentLoaded', () => {
             files: [
                 {
                     name: '001',
-                    description: '',
+                    description: 'Destroyed urban environment study.',
                     preview: 'assets/building/destroyed-building.png'
                 },
                 {
                     name: '002',
-                    description: '',
+                    description: 'Street storefront and exterior composition.',
                     preview: 'assets/building/street-storefront.png'
                 },
                 {
                     name: '003',
-                    description: '',
+                    description: 'Red temple arena and combat space.',
                     preview: 'assets/building/red-temple-arena.png'
                 },
                 {
                     name: '004',
-                    description: '',
+                    description: 'Interior room with a strong red lighting pass.',
                     preview: 'assets/building/red-interior-room.png'
                 },
                 {
                     name: '005',
-                    description: '',
+                    description: 'Sandstone street environment.',
                     preview: 'assets/building/sandstone-street.png'
                 },
                 {
                     name: '006',
-                    description: '',
+                    description: 'Bright plaza and outdoor scene study.',
                     preview: 'assets/building/sunny-plaza.png'
                 },
                 {
                     name: '007',
-                    description: '',
+                    description: 'Checkered lounge environment.',
                     preview: 'assets/building/checkered-lounge.png'
                 },
                 {
                     name: '008',
-                    description: '',
+                    description: 'Academy facade and architectural study.',
                     preview: 'assets/building/academy-facade.png'
                 }
             ]
@@ -79,22 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
             files: [
                 {
                     name: 'Molotov',
-                    description: '',
+                    description: 'Throwable system with impact VFX, fire damage, and ragdoll response.',
                     preview: 'assets/scripting/molotov.webp'
                 },
                 {
                     name: 'Ragdoll',
-                    description: '',
+                    description: 'Responsive R6 ragdoll with controlled impact reactions.',
                     preview: 'assets/scripting/ragdoll.webp'
                 },
                 {
                     name: 'Laser',
-                    description: '',
+                    description: 'Escalating beam damage, pressure, and hit feedback.',
                     preview: 'assets/scripting/laser.webp'
                 },
                 {
                     name: 'Bezier Projectile',
-                    description: '',
+                    description: 'Curved projectile with camera aiming and a trajectory preview.',
                     preview: 'assets/scripting/bezier-projectile.webp'
                 }
             ]
@@ -116,37 +120,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const loadingAssets = [
-        'building/destroyed-building.png',
-        'building/street-storefront.png',
-        'building/red-temple-arena.png',
-        'building/red-interior-room.png',
-        'building/sandstone-street.png',
-        'building/sunny-plaza.png',
-        'building/checkered-lounge.png',
-        'building/academy-facade.png',
-        'scripting/molotov.webp',
-        'scripting/ragdoll.webp',
-        'scripting/laser.webp',
-        'scripting/bezier-projectile.webp',
-        'vfxing/crimson-aura.webp',
-        'vfxing/golden-aura.webp'
-    ];
-
     function updateEggDisplay() {
         const found = Object.values(easterEggsFound).filter(Boolean).length;
         if (eggCounter) eggCounter.textContent = `${found}/4 Easter eggs found`;
+    }
+
+    async function syncGlobalDiscovery() {
+        try {
+            discoveryModulePromise ||= import('./config.js');
+            const discoveryModule = await discoveryModulePromise;
+            await discoveryModule.incrementGlobalDiscoveryCount();
+        } catch (error) {
+            console.warn('Global discovery tracking is unavailable.', error);
+        }
     }
 
     function markEasterEggFound(name) {
         if (!easterEggsFound[name]) {
             easterEggsFound[name] = true;
             updateEggDisplay();
-            
-            // Sync to global counter if Firebase is enabled
-            if (typeof incrementGlobalDiscoveryCount === 'function') {
-                incrementGlobalDiscoveryCount();
-            }
+            syncGlobalDiscovery();
 
             if (Object.values(easterEggsFound).every(Boolean)) {
                 unlockMatrixBackground();
@@ -165,8 +158,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function scrollToPrompt() {
+        if (reducedMotion.matches) {
+            window.scrollTo({ top: document.body.scrollHeight });
+            return;
+        }
+
         requestAnimationFrame(() => {
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    }
+
+    function announce(message) {
+        if (!appStatus) return;
+        appStatus.textContent = '';
+        requestAnimationFrame(() => {
+            appStatus.textContent = message;
         });
     }
 
@@ -197,29 +203,16 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         return `
-<div class="cmd-tabs" role="tablist" aria-label="Client app tabs">
+<div class="cmd-tabs" role="tablist" aria-label="Portfolio sections">
     ${tabs.map(([view, label]) => `
-        <button class="cmd-tab ${active === view ? 'active' : ''}" data-view="${view}" role="tab" aria-selected="${active === view}">
+        <button class="cmd-tab ${active === view ? 'active' : ''}" id="tab-${view}" data-view="${view}" role="tab" aria-selected="${active === view}" aria-controls="view-panel" tabindex="${active === view ? '0' : '-1'}">
             [${label}]
         </button>
     `).join('')}
 </div>`;
     }
 
-    function normalizeFile(file) {
-        if (Array.isArray(file)) {
-            return {
-                name: file[0],
-                description: file[1],
-                preview: null
-            };
-        }
-
-        return file;
-    }
-
-    function renderProjectFile(file) {
-        const artifact = normalizeFile(file);
+    function renderProjectFile(artifact) {
 
         if (!artifact.preview) {
             return `
@@ -231,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return `
             <a class="preview-card" href="${escapeHTML(artifact.preview)}" target="_blank" rel="noopener">
-                <img src="${escapeHTML(artifact.preview)}" alt="${escapeHTML(artifact.name)}" loading="eager" decoding="async">
+                <img src="${escapeHTML(artifact.preview)}" alt="${escapeHTML(artifact.name)}" loading="lazy" decoding="async">
                 ${artifact.hideLabel ? '' : `<span class="preview-name">${escapeHTML(artifact.name)}</span>`}
                 ${artifact.description ? `<span class="preview-desc">${escapeHTML(artifact.description)}</span>` : ''}
             </a>`;
@@ -246,17 +239,18 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
 
         const selected = folderKey ? folders[folderKey] : null;
-        const hasPreviews = selected?.files.some(file => normalizeFile(file).preview);
-        const fileRows = selected ? `
+        const hasPreviews = selected?.files.some(file => file.preview);
+        const fileRows = selected?.files.length ? `
             <div class="${hasPreviews ? 'preview-grid' : 'plain-file-list'}">
                 ${selected.files.map(renderProjectFile).join('')}
             </div>
         ` : `
-            <div class="empty-folder">Select a folder to inspect project files.</div>
+            <div class="empty-folder">${selected ? escapeHTML(selected.emptyMessage || 'Nothing has been published here yet.') : 'Select a folder to inspect project files.'}</div>
         `;
 
         return `
 ${renderTabs('projects')}
+<section class="view-panel" id="view-panel" role="tabpanel" aria-labelledby="tab-projects" tabindex="0">
 <div class="file-manager">
     <div class="fm-toolbar">
         <span>C:\\PORTFOLIO\\PROJECTS${selected ? `\\${selected.title.toUpperCase()}` : ''}</span>
@@ -270,34 +264,36 @@ ${renderTabs('projects')}
             ${fileRows}
         </div>
     </div>
-</div>`;
+</div>
+</section>`;
     }
 
     function renderContact() {
         return `
 ${renderTabs('contact')}
-<div class="content-section">
+<section class="content-section view-panel" id="view-panel" role="tabpanel" aria-labelledby="tab-contact" tabindex="0">
     <pre class="ascii-header">CONTACT CHANNELS
 ----------------</pre>
-    <p>Email   : contact@augostolas.com</p>
-    <p>GitHub  : github.com/Augostolas</p>
+    <p>Email   : <a href="mailto:contact@augostolas.com">contact@augostolas.com</a></p>
+    <p>GitHub  : <a href="https://github.com/Augostolas" target="_blank" rel="noopener">github.com/Augostolas</a></p>
     <p>Brief   : Send project type, deadline, references, and budget range.</p>
     <p>Status  : Available for animation, building, scripting, and VFX work.</p>
-</div>`;
+</section>`;
     }
 
     function renderPrices() {
         return `
 ${renderTabs('prices')}
+<section class="view-panel" id="view-panel" role="tabpanel" aria-labelledby="tab-prices" tabindex="0">
 <div class="price-grid">
     <div class="price-card">
         <h3>Starter</h3>
-        <strong>$50+</strong>
+        <strong>USD $50+</strong>
         <p>Small fixes, UI polish, simple scripts, or asset tweaks.</p>
     </div>
     <div class="price-card">
         <h3>Build Pack</h3>
-        <strong>$150+</strong>
+        <strong>USD $150+</strong>
         <p>Maps, interactive scenes, feature prototypes, and portfolio-ready pages.</p>
     </div>
     <div class="price-card">
@@ -305,7 +301,9 @@ ${renderTabs('prices')}
         <strong>Custom</strong>
         <p>Complete game/web systems with animation, scripting, VFX, and iteration.</p>
     </div>
-</div>`;
+</div>
+<p class="price-note">Starting estimates only. Final quotes depend on scope, deadline, revisions, and asset requirements.</p>
+</section>`;
     }
 
     function runAdminEasterEgg(command) {
@@ -353,7 +351,24 @@ ${renderTabs('prices')}
     function startBackgroundMusic() {
         if (!backgroundMusic) return;
         const playback = backgroundMusic.play();
-        if (playback) playback.catch(() => {});
+        if (playback) {
+            playback
+                .then(updateAudioControl)
+                .catch(() => updateAudioControl());
+        }
+    }
+
+    function stopBackgroundMusic() {
+        if (!backgroundMusic) return;
+        backgroundMusic.pause();
+        updateAudioControl();
+    }
+
+    function updateAudioControl() {
+        if (!audioToggle || !backgroundMusic) return;
+        const playing = !backgroundMusic.paused;
+        audioToggle.textContent = `AUDIO: ${playing ? 'ON' : 'OFF'}`;
+        audioToggle.setAttribute('aria-pressed', String(playing));
     }
 
     function playGeedorahFlash() {
@@ -394,70 +409,36 @@ ${renderTabs('prices')}
         appendEntry(command, '<div class="content-section error-line">No easter egg found.</div>');
     }
 
-    function shuffle(items) {
-        return [...items].sort(() => Math.random() - 0.5);
-    }
-
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     async function runStartupSequence() {
-        if (state.loadingTimer) clearTimeout(state.loadingTimer);
-        if (state.dotTimer) clearInterval(state.dotTimer);
-
         dynamicContent.innerHTML = '';
         cliInput.disabled = true;
 
-        const bootId = `boot-${Date.now()}`;
-        const assets = shuffle(loadingAssets);
         dynamicContent.innerHTML = `
-<section class="terminal-entry loading-entry" id="${bootId}">
-    <div class="terminal-command"><span class="prompt-path">C:\\PORTFOLIO&gt;</span> client_app.exe /load-assets</div>
+<section class="terminal-entry loading-entry">
+    <div class="terminal-command"><span class="prompt-path">C:\\PORTFOLIO&gt;</span> client_app.exe</div>
     <div class="terminal-output">
         <div class="content-section">
-            <p class="loading-head">Loading client workspace<span id="loadingDots">...</span></p>
-            <div class="asset-log" id="assetLog"></div>
+            <p class="loading-head">Starting client workspace...</p>
+            <div class="asset-log" id="assetLog"><p>Interface shell ... OK</p></div>
         </div>
     </div>
 </section>`;
 
-        const dotEl = document.getElementById('loadingDots');
         const assetLog = document.getElementById('assetLog');
-        let dotCount = 0;
-        const startedAt = Date.now();
-        const totalMs = 15000;
-
-        state.dotTimer = setInterval(() => {
-            dotCount = (dotCount + 1) % 4;
-            if (dotEl) dotEl.textContent = '.'.repeat(dotCount || 3);
-        }, 280);
-
-        const checkpoints = assets
-            .map(() => 700 + Math.random() * (totalMs - 2200))
-            .sort((a, b) => a - b);
-
-        for (let index = 0; index < assets.length; index += 1) {
-            const targetTime = checkpoints[index];
-            const waitTime = Math.max(0, targetTime - (Date.now() - startedAt));
-            await sleep(waitTime);
-            const fakeMs = Math.floor(120 + Math.random() * 1480);
-            assetLog.insertAdjacentHTML('beforeend', `<p>Loading ${escapeHTML(assets[index])} ${fakeMs}ms ... OK</p>`);
-            scrollToPrompt();
-        }
-
-        const elapsed = Date.now() - startedAt;
-        if (elapsed < totalMs) await sleep(totalMs - elapsed);
-
-        clearInterval(state.dotTimer);
-        state.dotTimer = null;
-        if (dotEl) dotEl.textContent = '...';
-        assetLog.insertAdjacentHTML('beforeend', '<p>Mounting interface tabs ... OK</p><p>Ready.</p>');
-        await sleep(500);
+        const minimumDelay = reducedMotion.matches ? 0 : 350;
+        const fontReady = document.fonts?.ready?.catch(() => {}) || Promise.resolve();
+        await Promise.all([fontReady, sleep(minimumDelay)]);
+        assetLog.insertAdjacentHTML('beforeend', '<p>Project catalog ... OK</p><p>Ready.</p>');
+        await sleep(reducedMotion.matches ? 0 : 180);
 
         cliInput.disabled = false;
         cliInput.focus();
         setAppOutput(renderProjects());
+        announce('Projects section loaded.');
     }
 
     cliInput.addEventListener('keydown', event => {
@@ -488,18 +469,29 @@ ${renderTabs('prices')}
         }
     });
 
+    function switchView(view, focusTab = false) {
+        const views = {
+            projects: () => renderProjects(),
+            contact: renderContact,
+            prices: renderPrices
+        };
+
+        if (!views[view]) return;
+        state.activeTab = view;
+        state.activeFolder = null;
+        setAppOutput(views[view]());
+        announce(`${view[0].toUpperCase()}${view.slice(1)} section loaded.`);
+
+        if (focusTab) {
+            requestAnimationFrame(() => document.getElementById(`tab-${view}`)?.focus());
+        }
+    }
+
     document.addEventListener('click', event => {
-        startBackgroundMusic();
         const tabButton = event.target.closest('[data-view]');
         if (tabButton) {
-            state.activeTab = tabButton.dataset.view;
-            state.activeFolder = null;
-            const views = {
-                projects: () => renderProjects(),
-                contact: renderContact,
-                prices: renderPrices
-            };
-            setAppOutput(views[state.activeTab]());
+            switchView(tabButton.dataset.view, true);
+            return;
         }
 
         const folderButton = event.target.closest('[data-folder]');
@@ -507,11 +499,37 @@ ${renderTabs('prices')}
             state.activeTab = 'projects';
             state.activeFolder = folderButton.dataset.folder;
             setAppOutput(renderProjects(state.activeFolder));
+            announce(`${folders[state.activeFolder].title} folder opened.`);
+            requestAnimationFrame(() => document.querySelector(`[data-folder="${state.activeFolder}"]`)?.focus());
+            return;
         }
-        cliInput.focus();
+
+        if (event.target === audioToggle) {
+            if (backgroundMusic.paused) startBackgroundMusic();
+            else stopBackgroundMusic();
+            return;
+        }
+
+        if (!event.target.closest('a, button, input')) cliInput.focus();
     });
 
-    document.addEventListener('keydown', startBackgroundMusic, { once: true });
+    document.addEventListener('keydown', event => {
+        const activeTab = event.target.closest?.('[role="tab"]');
+        if (!activeTab) return;
+
+        const tabOrder = ['projects', 'contact', 'prices'];
+        const currentIndex = tabOrder.indexOf(activeTab.dataset.view);
+        let nextIndex = null;
+
+        if (event.key === 'ArrowRight') nextIndex = (currentIndex + 1) % tabOrder.length;
+        if (event.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + tabOrder.length) % tabOrder.length;
+        if (event.key === 'Home') nextIndex = 0;
+        if (event.key === 'End') nextIndex = tabOrder.length - 1;
+        if (nextIndex === null) return;
+
+        event.preventDefault();
+        switchView(tabOrder[nextIndex], true);
+    });
 
     function unlockMatrixBackground() {
         if (state.matrixActive) return;
@@ -521,38 +539,80 @@ ${renderTabs('prices')}
         startMatrixRain();
     }
 
-    function startMatrixRain() {
+    function prepareMatrixScene() {
         const ctx = matrixCanvas.getContext('2d');
-        matrixCanvas.width = window.innerWidth;
-        matrixCanvas.height = window.innerHeight;
-
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+        matrixCanvas.width = Math.round(window.innerWidth * pixelRatio);
+        matrixCanvas.height = Math.round(window.innerHeight * pixelRatio);
+        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         const glyphs = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const fontSize = 16;
-        const columns = Math.ceil(matrixCanvas.width / fontSize);
+        const columns = Math.ceil(window.innerWidth / fontSize);
         const drops = Array.from({ length: columns }, () => 1);
 
-        if (window.matrixInterval) clearInterval(window.matrixInterval);
-        window.matrixInterval = setInterval(() => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-            ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-            ctx.fillStyle = document.body.classList.contains('geedorah-mode') ? '#ff324c' : '#00ff66';
-            ctx.font = `${fontSize}px monospace`;
+        state.matrixScene = { ctx, glyphs, fontSize, drops };
+    }
 
-            drops.forEach((drop, index) => {
-                const glyph = glyphs[Math.floor(Math.random() * glyphs.length)];
-                ctx.fillText(glyph, index * fontSize, drop * fontSize);
-                if (drop * fontSize > matrixCanvas.height && Math.random() > 0.975) drops[index] = 0;
-                drops[index] += 1;
-            });
-        }, 33);
+    function drawMatrixFrame() {
+        if (!state.matrixScene) return;
+        const { ctx, glyphs, fontSize, drops } = state.matrixScene;
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        ctx.fillStyle = document.body.classList.contains('geedorah-mode') ? '#ff324c' : '#00ff66';
+        ctx.font = `${fontSize}px monospace`;
+
+        drops.forEach((drop, index) => {
+            const glyph = glyphs[Math.floor(Math.random() * glyphs.length)];
+            ctx.fillText(glyph, index * fontSize, drop * fontSize);
+            if (drop * fontSize > window.innerHeight && Math.random() > 0.975) drops[index] = 0;
+            drops[index] += 1;
+        });
+    }
+
+    function runMatrixFrame(timestamp) {
+        if (!state.matrixActive || document.hidden || reducedMotion.matches) return;
+        if (timestamp - state.matrixLastFrame >= 50) {
+            drawMatrixFrame();
+            state.matrixLastFrame = timestamp;
+        }
+        state.matrixFrame = requestAnimationFrame(runMatrixFrame);
+    }
+
+    function stopMatrixRain() {
+        if (state.matrixFrame) cancelAnimationFrame(state.matrixFrame);
+        state.matrixFrame = null;
+    }
+
+    function startMatrixRain() {
+        stopMatrixRain();
+        prepareMatrixScene();
+        drawMatrixFrame();
+        if (!reducedMotion.matches && !document.hidden) {
+            state.matrixFrame = requestAnimationFrame(runMatrixFrame);
+        }
     }
 
     window.addEventListener('resize', () => {
         if (state.matrixActive) startMatrixRain();
     });
 
+    document.addEventListener('visibilitychange', () => {
+        if (!state.matrixActive) return;
+        if (document.hidden) stopMatrixRain();
+        else startMatrixRain();
+    });
+
+    reducedMotion.addEventListener('change', () => {
+        if (state.matrixActive) startMatrixRain();
+    });
+
     updateEggDisplay();
-    if (backgroundMusic) backgroundMusic.volume = 0.0105;
+    if (backgroundMusic) {
+        backgroundMusic.volume = 0.0105;
+        backgroundMusic.addEventListener('play', updateAudioControl);
+        backgroundMusic.addEventListener('pause', updateAudioControl);
+    }
+    updateAudioControl();
     cliInput.focus();
     runStartupSequence();
 });

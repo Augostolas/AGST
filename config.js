@@ -1,5 +1,5 @@
-// Firebase Configuration
-// Global discovery tracking enabled for AGST Portfolio
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js';
+import { getDatabase, ref, runTransaction } from 'https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDvIMKGsRpzhYC3TloMlmfaPEnTQefUYVU",
@@ -12,41 +12,23 @@ const firebaseConfig = {
     measurementId: "G-2HSZXNVW1N"
 };
 
-// Set to true after configuring Firebase
 const firebaseEnabled = true;
-
-// Initialize Firebase only if configured
 let db = null;
-let globalDiscoveryCount = 0;
 
 if (firebaseEnabled && firebaseConfig.apiKey !== "YOUR_API_KEY") {
     try {
-        firebase.initializeApp(firebaseConfig);
-        db = firebase.database();
-        
-        // Listen for global discovery count updates
-        db.ref('discoveries/global_count').on('value', (snapshot) => {
-            if (snapshot.exists()) {
-                globalDiscoveryCount = snapshot.val();
-                document.dispatchEvent(new CustomEvent('globalEggUpdate', {
-                    detail: { count: globalDiscoveryCount }
-                }));
-            }
-        });
+        db = getDatabase(initializeApp(firebaseConfig));
     } catch (error) {
-        console.warn('Firebase not configured. Global discovery tracking disabled.');
+        console.warn('Global discovery tracking is unavailable.', error);
     }
 }
 
-// Function to increment global counter
-async function incrementGlobalDiscoveryCount() {
-    if (db) {
-        try {
-            await db.ref('discoveries/global_count').transaction((current) => {
-                return (current || 0) + 1;
-            });
-        } catch (error) {
-            console.warn('Could not update global count:', error);
-        }
+export async function incrementGlobalDiscoveryCount() {
+    if (!db) return;
+
+    try {
+        await runTransaction(ref(db, 'discoveries/global_count'), current => (current || 0) + 1);
+    } catch (error) {
+        console.warn('Could not update the global discovery count.', error);
     }
 }

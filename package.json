@@ -1,0 +1,8 @@
+{
+  "name": "agst-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node --check script.js && node --check config.js && node tools/validate-site.mjs"
+  }
+}
