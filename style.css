@@ -270,6 +270,59 @@ body.geedorah-mode .folder-icon-red {
     padding: 8px 10px;
 }
 
+.file-list.animating-mode {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 220px;
+    overflow: hidden;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.025) 50%, transparent 50%),
+        radial-gradient(circle at center, #242424 0%, #101010 58%, #050505 100%);
+    background-size: 100% 4px, 100% 100%;
+    color: #bdbdbd;
+    text-shadow: 0 0 5px rgba(220, 220, 220, 0.24);
+}
+
+.file-list.animating-mode::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 18%, rgba(255, 255, 255, 0.07) 48%, transparent 74%);
+    opacity: 0.55;
+}
+
+.animating-placeholder {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    padding: 24px;
+    text-align: center;
+}
+
+.animation-gear {
+    width: clamp(78px, 11vw, 112px);
+    aspect-ratio: 1;
+    background: var(--term-green-bright);
+    filter: drop-shadow(0 0 9px color-mix(in srgb, var(--term-green) 58%, transparent));
+    -webkit-mask: url('assets/ui/animating-gear.png') center / contain no-repeat;
+    mask: url('assets/ui/animating-gear.png') center / contain no-repeat;
+    animation: gearSpin 3.6s linear infinite;
+}
+
+.animation-state {
+    color: #dedede;
+    letter-spacing: 0.12em;
+}
+
+.animation-note {
+    color: #8b8b8b;
+    font-size: 0.84rem;
+}
+
 .plain-file-list {
     display: block;
 }
@@ -559,6 +612,12 @@ body.geedorah-mode.matrix-unlocked .cli-input-area {
 
     .cli-line {
         align-items: flex-start;
+    }
+}
+
+@keyframes gearSpin {
+    to {
+        transform: rotate(1turn);
     }
 }
 

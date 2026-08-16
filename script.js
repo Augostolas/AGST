@@ -242,8 +242,15 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
 
         const selected = folderKey ? folders[folderKey] : null;
+        const animatingActive = folderKey === 'animating';
         const hasPreviews = selected?.files.some(file => file.preview);
-        const fileRows = selected?.files.length ? `
+        const fileRows = animatingActive ? `
+            <div class="animating-placeholder">
+                <span class="animation-gear" aria-hidden="true"></span>
+                <span class="animation-state">ANIMATION REEL // PROCESSING</span>
+                <span class="animation-note">Keyframes are still being wired.</span>
+            </div>
+        ` : selected?.files.length ? `
             <div class="${hasPreviews ? 'preview-grid' : 'plain-file-list'}">
                 ${selected.files.map(renderProjectFile).join('')}
             </div>
@@ -263,7 +270,7 @@ ${renderTabs('projects')}
         <div class="folder-list">
             ${folderRows}
         </div>
-        <div class="file-list">
+        <div class="file-list ${animatingActive ? 'animating-mode' : ''}">
             ${fileRows}
         </div>
     </div>
