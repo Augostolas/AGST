@@ -277,8 +277,7 @@ ${renderTabs('contact')}
 <section class="content-section view-panel" id="view-panel" role="tabpanel" aria-labelledby="tab-contact" tabindex="0">
     <pre class="ascii-header">CONTACT CHANNELS
 ----------------</pre>
-    <p>Email   : <a href="mailto:contact@augostolas.com">contact@augostolas.com</a></p>
-    <p>GitHub  : <a href="https://github.com/Augostolas" target="_blank" rel="noopener">github.com/Augostolas</a></p>
+    <p>Discord : augostoletal</p>
     <p>Brief   : Send project type, deadline, references, and budget range.</p>
     <p>Status  : Available for animation, building, scripting, and VFX work.</p>
 </section>`;
