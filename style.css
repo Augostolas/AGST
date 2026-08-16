@@ -291,8 +291,8 @@ body.geedorah-mode .folder-icon-red {
 .animation-gear {
     width: 20px;
     aspect-ratio: 1;
-    background: var(--term-green-bright);
-    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--term-green) 70%, transparent));
+    background: #bcbcbc;
+    filter: drop-shadow(0 0 5px rgba(220, 220, 220, 0.42));
     -webkit-mask: url('assets/ui/animating-gear.png') center / contain no-repeat;
     mask: url('assets/ui/animating-gear.png') center / contain no-repeat;
     animation: gearSpin 2.4s linear infinite;
