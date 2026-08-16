@@ -247,6 +247,10 @@ body.geedorah-mode .crt-overlay {
     background: linear-gradient(90deg, #777, #3f3f3f);
 }
 
+.folder-row.animating-folder .folder-icon img {
+    filter: grayscale(1) brightness(1.45) drop-shadow(0 0 4px rgba(220, 220, 220, 0.35));
+}
+
 .folder-icon {
     position: relative;
     display: block;
