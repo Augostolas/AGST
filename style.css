@@ -247,8 +247,9 @@ body.geedorah-mode .crt-overlay {
     background: linear-gradient(90deg, #777, #3f3f3f);
 }
 
-.folder-row.animating-folder .folder-icon img {
-    filter: grayscale(1) brightness(1.45) drop-shadow(0 0 4px rgba(220, 220, 220, 0.35));
+.folder-icon-gray {
+    display: block;
+    filter: brightness(1.55) drop-shadow(0 0 4px rgba(220, 220, 220, 0.35));
 }
 
 .folder-icon {
@@ -291,10 +292,8 @@ body.geedorah-mode .folder-icon-red {
 .animation-gear {
     width: 20px;
     aspect-ratio: 1;
-    background: #bcbcbc;
-    filter: drop-shadow(0 0 5px rgba(220, 220, 220, 0.42));
-    -webkit-mask: url('assets/ui/animating-gear.png') center / contain no-repeat;
-    mask: url('assets/ui/animating-gear.png') center / contain no-repeat;
+    object-fit: contain;
+    filter: grayscale(1) brightness(2.8) drop-shadow(0 0 4px rgba(220, 220, 220, 0.42));
     animation: gearSpin 2.4s linear infinite;
 }
 

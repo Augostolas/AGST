@@ -15,7 +15,7 @@ requireText(html, 'name="description"', 'meta description');
 requireText(html, 'property="og:title"', 'Open Graph title');
 requireText(html, 'rel="canonical"', 'canonical URL');
 requireText(html, 'preload="none"', 'non-preloading background audio');
-requireText(html, 'type="module" src="script.js"', 'module entry point');
+if (!/type="module" src="script\.js(?:\?[^\"]*)?"/.test(html)) errors.push('Missing module entry point.');
 requireText(script, 'loading="lazy"', 'lazy-loaded project previews');
 
 if (html.includes('firebase-app.js"></script>')) errors.push('Legacy Firebase script tag is still present.');
@@ -28,7 +28,7 @@ if (duplicateIds.length) errors.push(`Duplicate HTML IDs: ${duplicateIds.join(',
 const localAssets = new Set();
 for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
     const reference = match[1];
-    if (!reference.includes(':') && !reference.startsWith('#')) localAssets.add(reference);
+    if (!reference.includes(':') && !reference.startsWith('#')) localAssets.add(reference.split(/[?#]/, 1)[0]);
 }
 for (const match of script.matchAll(/['"](assets\/[^'"]+)['"]/g)) localAssets.add(match[1]);
 

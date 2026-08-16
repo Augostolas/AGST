@@ -234,11 +234,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const folderRows = Object.entries(folders).map(([key, folder]) => `
             <button class="folder-row ${key === 'animating' ? 'animating-folder' : ''} ${folderKey === key ? 'active' : ''}" data-folder="${key}">
                 <span class="folder-icon" aria-hidden="true">
-                    <img class="folder-icon-green" src="assets/ui/folder-green.png" alt="">
-                    <img class="folder-icon-red" src="assets/ui/folder-red.png" alt="">
+                    ${key === 'animating' ? `
+                        <img class="folder-icon-gray" src="assets/ui/folder-gray.png" alt="">
+                    ` : `
+                        <img class="folder-icon-green" src="assets/ui/folder-green.png" alt="">
+                        <img class="folder-icon-red" src="assets/ui/folder-red.png" alt="">
+                    `}
                 </span>
                 <span class="folder-title">${folder.title}</span>
-                ${key === 'animating' ? '<span class="animation-gear" aria-hidden="true"></span>' : ''}
+                ${key === 'animating' ? '<img class="animation-gear" src="assets/ui/animating-gear.png" alt="" aria-hidden="true">' : ''}
             </button>
         `).join('');
 
