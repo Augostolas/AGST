@@ -38,42 +38,42 @@ document.addEventListener('DOMContentLoaded', () => {
             files: [
                 {
                     name: '001',
-                    description: 'Destroyed urban environment study.',
+                    description: '',
                     preview: 'assets/building/destroyed-building.png'
                 },
                 {
                     name: '002',
-                    description: 'Street storefront and exterior composition.',
+                    description: '',
                     preview: 'assets/building/street-storefront.png'
                 },
                 {
                     name: '003',
-                    description: 'Red temple arena and combat space.',
+                    description: '',
                     preview: 'assets/building/red-temple-arena.png'
                 },
                 {
                     name: '004',
-                    description: 'Interior room with a strong red lighting pass.',
+                    description: '',
                     preview: 'assets/building/red-interior-room.png'
                 },
                 {
                     name: '005',
-                    description: 'Sandstone street environment.',
+                    description: '',
                     preview: 'assets/building/sandstone-street.png'
                 },
                 {
                     name: '006',
-                    description: 'Bright plaza and outdoor scene study.',
+                    description: '',
                     preview: 'assets/building/sunny-plaza.png'
                 },
                 {
                     name: '007',
-                    description: 'Checkered lounge environment.',
+                    description: '',
                     preview: 'assets/building/checkered-lounge.png'
                 },
                 {
                     name: '008',
-                    description: 'Academy facade and architectural study.',
+                    description: '',
                     preview: 'assets/building/academy-facade.png'
                 }
             ]
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProjects(folderKey = null) {
         const folderRows = Object.entries(folders).map(([key, folder]) => `
             <button class="folder-row ${folderKey === key ? 'active' : ''}" data-folder="${key}">
-                <span class="folder-icon">[DIR]</span>
+                <img class="folder-icon" src="assets/ui/folder-red.png" alt="" aria-hidden="true">
                 <span>${folder.title}</span>
             </button>
         `).join('');
@@ -340,6 +340,7 @@ ${renderTabs('prices')}
         markEasterEggFound('geedorah');
         document.body.classList.remove('rgb-party');
         document.body.classList.add('geedorah-mode');
+        if (state.matrixActive) startMatrixRain();
         playGeedorahFlash();
         startBackgroundMusic();
         appendEntry(command, `
@@ -429,11 +430,18 @@ ${renderTabs('prices')}
 </section>`;
 
         const assetLog = document.getElementById('assetLog');
-        const minimumDelay = reducedMotion.matches ? 0 : 350;
-        const fontReady = document.fonts?.ready?.catch(() => {}) || Promise.resolve();
-        await Promise.all([fontReady, sleep(minimumDelay)]);
-        assetLog.insertAdjacentHTML('beforeend', '<p>Project catalog ... OK</p><p>Ready.</p>');
-        await sleep(reducedMotion.matches ? 0 : 180);
+        const stageDelay = reducedMotion.matches ? 250 : 850;
+        const fontReady = Promise.race([
+            document.fonts?.ready?.catch(() => {}) || Promise.resolve(),
+            sleep(reducedMotion.matches ? 250 : 1200)
+        ]);
+        await Promise.all([fontReady, sleep(stageDelay)]);
+        assetLog.insertAdjacentHTML('beforeend', '<p>Visual archive ... OK</p>');
+        await sleep(stageDelay);
+        assetLog.insertAdjacentHTML('beforeend', '<p>Project catalog ... OK</p>');
+        await sleep(stageDelay);
+        assetLog.insertAdjacentHTML('beforeend', '<p>Audio channel ... STANDBY</p><p>Ready.</p>');
+        await sleep(reducedMotion.matches ? 100 : 300);
 
         cliInput.disabled = false;
         cliInput.focus();
@@ -550,15 +558,18 @@ ${renderTabs('prices')}
         const columns = Math.ceil(window.innerWidth / fontSize);
         const drops = Array.from({ length: columns }, () => 1);
 
+        ctx.fillStyle = document.body.classList.contains('geedorah-mode') ? '#ffffff' : '#000000';
+        ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
         state.matrixScene = { ctx, glyphs, fontSize, drops };
     }
 
     function drawMatrixFrame() {
         if (!state.matrixScene) return;
         const { ctx, glyphs, fontSize, drops } = state.matrixScene;
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        const geedorahActive = document.body.classList.contains('geedorah-mode');
+        ctx.fillStyle = geedorahActive ? 'rgba(255, 255, 255, 0.16)' : 'rgba(0, 0, 0, 0.08)';
         ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-        ctx.fillStyle = document.body.classList.contains('geedorah-mode') ? '#ff324c' : '#00ff66';
+        ctx.fillStyle = geedorahActive ? '#d71938' : '#00ff66';
         ctx.font = `${fontSize}px monospace`;
 
         drops.forEach((drop, index) => {

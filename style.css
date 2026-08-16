@@ -227,13 +227,17 @@ body.geedorah-mode .crt-overlay {
 
 .folder-row {
     display: grid;
-    grid-template-columns: 54px 1fr;
+    grid-template-columns: 42px 1fr;
+    align-items: center;
     width: 100%;
     margin-bottom: 6px;
 }
 
 .folder-icon {
-    color: inherit;
+    width: 30px;
+    height: 24px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.5));
 }
 
 .file-list {
