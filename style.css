@@ -234,10 +234,36 @@ body.geedorah-mode .crt-overlay {
 }
 
 .folder-icon {
+    position: relative;
+    display: block;
     width: 30px;
     height: 24px;
+}
+
+.folder-icon img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+}
+
+.folder-icon-green {
+    display: block;
+    filter: drop-shadow(0 0 4px rgba(0, 255, 102, 0.48));
+}
+
+.folder-icon-red {
+    display: none;
     filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.5));
+}
+
+body.geedorah-mode .folder-icon-green {
+    display: none;
+}
+
+body.geedorah-mode .folder-icon-red {
+    display: block;
 }
 
 .file-list {
@@ -331,11 +357,10 @@ body.geedorah-mode .crt-overlay {
     font-size: 0.88rem;
 }
 
-.admin-message {
+.egg-message {
     border: 1px solid #fff;
     color: #fff;
     padding: 10px;
-    animation: rgbText 0.8s linear infinite;
 }
 
 .error-line {
@@ -493,52 +518,10 @@ body.geedorah-mode.matrix-unlocked .cli-input-area {
     100% { opacity: 0; background: #ffffff; }
 }
 
-body.rgb-party {
-    animation: rgbBackground 1.5s linear infinite;
-}
-
-body.rgb-party .terminal-screen,
-body.rgb-party .cli-input-area {
-    animation: rgbBackground 1.5s linear infinite;
-}
-
-body.rgb-party .terminal-screen *,
-body.rgb-party .crt-overlay {
-    animation: rgbText 0.9s linear infinite;
-}
-
-body.rgb-party .cmd-tab,
-body.rgb-party .folder-row,
-body.rgb-party .file-manager,
-body.rgb-party .price-card {
-    animation: rgbBorder 0.9s linear infinite;
-}
-
 @keyframes blink {
     to {
         visibility: hidden;
     }
-}
-
-@keyframes rgbText {
-    0% { color: #ff385c; text-shadow: 0 0 7px #ff385c; }
-    33% { color: #35ff72; text-shadow: 0 0 7px #35ff72; }
-    66% { color: #3aa0ff; text-shadow: 0 0 7px #3aa0ff; }
-    100% { color: #ff385c; text-shadow: 0 0 7px #ff385c; }
-}
-
-@keyframes rgbBorder {
-    0% { border-color: #ff385c; box-shadow: 0 0 8px #ff385c; }
-    33% { border-color: #35ff72; box-shadow: 0 0 8px #35ff72; }
-    66% { border-color: #3aa0ff; box-shadow: 0 0 8px #3aa0ff; }
-    100% { border-color: #ff385c; box-shadow: 0 0 8px #ff385c; }
-}
-
-@keyframes rgbBackground {
-    0% { background-color: #090004; }
-    33% { background-color: #001007; }
-    66% { background-color: #000814; }
-    100% { background-color: #090004; }
 }
 
 @media (max-width: 760px) {

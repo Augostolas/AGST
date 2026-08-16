@@ -5,7 +5,7 @@ A terminal-inspired portfolio for Roblox environments, gameplay systems, animati
 ## Features
 
 - Responsive project gallery with building, scripting, animation, and VFX sections
-- Four hidden commands with local discovery progress and an optional Firebase global counter
+- Three hidden commands with local discovery progress and an optional Firebase global counter
 - Keyboard-accessible section tabs and project navigation
 - Reduced-motion support, an explicit music control, and lazy-loaded previews
 - Red-and-white King Geedorah theme and Matrix completion effect

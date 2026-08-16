@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const appStatus = document.getElementById('appStatus');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const easterEggsFound = {
-        admin: false,
         matrix: false,
         '123': false,
         geedorah: false
@@ -21,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         activeTab: 'projects',
         activeFolder: null,
         matrixActive: false,
-        adminTimer: null,
         matrixFrame: null,
         matrixLastFrame: 0,
         matrixScene: null
@@ -83,22 +81,22 @@ document.addEventListener('DOMContentLoaded', () => {
             files: [
                 {
                     name: 'Molotov',
-                    description: 'Throwable system with impact VFX, fire damage, and ragdoll response.',
+                    description: 'Throw it, it breaks, burns stuff, and drops whoever gets hit.',
                     preview: 'assets/scripting/molotov.webp'
                 },
                 {
                     name: 'Ragdoll',
-                    description: 'Responsive R6 ragdoll with controlled impact reactions.',
+                    description: 'Full-body ragdoll with cleaner hits and less janky movement.',
                     preview: 'assets/scripting/ragdoll.webp'
                 },
                 {
                     name: 'Laser',
-                    description: 'Escalating beam damage, pressure, and hit feedback.',
+                    description: 'A heavy laser that pushes harder and hurts more the longer it hits.',
                     preview: 'assets/scripting/laser.webp'
                 },
                 {
                     name: 'Bezier Projectile',
-                    description: 'Curved projectile with camera aiming and a trajectory preview.',
+                    description: 'Curved shot with aim preview, camera control, and a clean release.',
                     preview: 'assets/scripting/bezier-projectile.webp'
                 }
             ]
@@ -122,10 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateEggDisplay() {
         const found = Object.values(easterEggsFound).filter(Boolean).length;
-        if (eggCounter) eggCounter.textContent = `${found}/4 Easter eggs found`;
+        if (eggCounter) eggCounter.textContent = `${found}/3 Easter eggs found`;
     }
 
     async function syncGlobalDiscovery() {
+        if (['localhost', '127.0.0.1'].includes(window.location.hostname)) return;
+
         try {
             discoveryModulePromise ||= import('./config.js');
             const discoveryModule = await discoveryModulePromise;
@@ -233,7 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProjects(folderKey = null) {
         const folderRows = Object.entries(folders).map(([key, folder]) => `
             <button class="folder-row ${folderKey === key ? 'active' : ''}" data-folder="${key}">
-                <img class="folder-icon" src="assets/ui/folder-red.png" alt="" aria-hidden="true">
+                <span class="folder-icon" aria-hidden="true">
+                    <img class="folder-icon-green" src="assets/ui/folder-green.png" alt="">
+                    <img class="folder-icon-red" src="assets/ui/folder-red.png" alt="">
+                </span>
                 <span>${folder.title}</span>
             </button>
         `).join('');
@@ -306,27 +309,10 @@ ${renderTabs('prices')}
 </section>`;
     }
 
-    function runAdminEasterEgg(command) {
-        if (state.adminTimer) clearTimeout(state.adminTimer);
-        markEasterEggFound('admin');
-        
-        document.body.classList.add('rgb-party');
-        appendEntry(command, `
-<div class="admin-message">
-    Yo, that was actually a pretty solid dig.
-    RGB mode is unlocked for 15 seconds.
-</div>`);
-
-        state.adminTimer = setTimeout(() => {
-            document.body.classList.remove('rgb-party');
-            state.adminTimer = null;
-        }, 15000);
-    }
-
     function run123EasterEgg(command) {
         markEasterEggFound('123');
         appendEntry(command, `
-<div class="admin-message">
+<div class="egg-message">
     Easy as 1-2-3! You found another one.
 </div>`);
     }
@@ -338,7 +324,6 @@ ${renderTabs('prices')}
 
     function runGeedorahEasterEgg(command) {
         markEasterEggFound('geedorah');
-        document.body.classList.remove('rgb-party');
         document.body.classList.add('geedorah-mode');
         if (state.matrixActive) startMatrixRain();
         playGeedorahFlash();
@@ -386,11 +371,6 @@ ${renderTabs('prices')}
         state.history.push(command);
         state.historyIndex = state.history.length;
         const cmd = command.toLowerCase().replace(/\s+/g, ' ');
-
-        if (cmd === 'admin') {
-            runAdminEasterEgg(command);
-            return;
-        }
 
         if (cmd === '123') {
             run123EasterEgg(command);
