@@ -246,42 +246,18 @@ body.geedorah-mode .crt-overlay {
     background: linear-gradient(90deg, #777, #3f3f3f);
 }
 
-.folder-icon-gray {
-    display: block;
-    filter: brightness(1.55) drop-shadow(0 0 4px rgba(220, 220, 220, 0.35));
-}
-
 .folder-icon {
-    position: relative;
     display: block;
     width: 30px;
     height: 24px;
+    -webkit-mask: url('assets/ui/folder-green.png') center / contain no-repeat;
+    mask: url('assets/ui/folder-green.png') center / contain no-repeat;
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--term-green-bright) 52%, transparent));
 }
 
-.folder-icon img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.folder-icon-green {
-    display: block;
-    filter: drop-shadow(0 0 4px rgba(0, 255, 102, 0.48));
-}
-
-.folder-icon-red {
-    display: none;
-    filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.5));
-}
-
-body.geedorah-mode .folder-icon-green {
-    display: none;
-}
-
-body.geedorah-mode .folder-icon-red {
-    display: block;
+.folder-row.animating-folder .folder-icon {
+    background-color: #bcbcbc;
+    filter: drop-shadow(0 0 4px rgba(220, 220, 220, 0.35));
 }
 
 .file-list {

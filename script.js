@@ -247,14 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProjects(folderKey = null) {
         const folderRows = Object.entries(folders).map(([key, folder]) => `
             <button class="folder-row ${key === 'animating' ? 'animating-folder' : ''} ${folderKey === key ? 'active' : ''}" data-folder="${key}">
-                <span class="folder-icon" aria-hidden="true">
-                    ${key === 'animating' ? `
-                        <img class="folder-icon-gray" src="assets/ui/folder-gray.png" alt="">
-                    ` : `
-                        <img class="folder-icon-green" src="assets/ui/folder-green.png" alt="">
-                        <img class="folder-icon-red" src="assets/ui/folder-red.png" alt="">
-                    `}
-                </span>
+                <span class="folder-icon theme-icon" aria-hidden="true"></span>
                 <span class="folder-title">${folder.title}</span>
                 ${key === 'animating' ? '<img class="animation-gear" src="assets/ui/animating-gear.png" alt="" aria-hidden="true">' : ''}
             </button>
@@ -320,10 +313,7 @@ ${renderTabs('prices')}
     <div class="fm-grid">
         <div class="folder-list">
             <div class="folder-row active pricing-folder">
-                <span class="folder-icon" aria-hidden="true">
-                    <img class="folder-icon-green" src="assets/ui/folder-green.png" alt="">
-                    <img class="folder-icon-red" src="assets/ui/folder-red.png" alt="">
-                </span>
+                <span class="folder-icon theme-icon" aria-hidden="true"></span>
                 <span>Work Arrangements</span>
             </div>
         </div>

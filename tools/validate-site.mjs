@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = await readFile(path.join(root, 'index.html'), 'utf8');
 const script = await readFile(path.join(root, 'script.js'), 'utf8');
+const styles = await readFile(path.join(root, 'style.css'), 'utf8');
 const errors = [];
 
 const requireText = (source, text, label) => {
@@ -31,6 +32,10 @@ for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
     if (!reference.includes(':') && !reference.startsWith('#')) localAssets.add(reference.split(/[?#]/, 1)[0]);
 }
 for (const match of script.matchAll(/['"](assets\/[^'"]+)['"]/g)) localAssets.add(match[1]);
+for (const match of styles.matchAll(/url\(['"]?([^'")]+)['"]?\)/g)) {
+    const reference = match[1];
+    if (!reference.includes(':') && !reference.startsWith('#')) localAssets.add(reference.split(/[?#]/, 1)[0]);
+}
 
 for (const reference of localAssets) {
     try {
