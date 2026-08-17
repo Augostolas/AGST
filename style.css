@@ -553,6 +553,8 @@ body.geedorah-mode .folder-icon-red {
     text-align: left;
     text-shadow: none;
     white-space: pre;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.52) 48%, #000 100%);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.52) 48%, #000 100%);
 }
 
 .ascii-signature-name {
