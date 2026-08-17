@@ -290,10 +290,10 @@ ${renderTabs('contact')}
     <pre class="ascii-header">CONTACT CHANNELS
 ----------------</pre>
     <div class="contact-channels">
-        <div class="contact-channel">
+        <a class="contact-channel" href="https://create.roblox.com/talent/creators/1162594847" target="_blank" rel="noopener noreferrer" aria-label="Open Roblox Talent profile in a new tab">
             <span class="theme-icon roblox-talent-icon" aria-hidden="true"></span>
             <span class="contact-channel-name">Roblox Talent</span>
-        </div>
+        </a>
     </div>
     <p>Discord : augostoletal</p>
     <p>Brief   : Send project type, deadline, references, and budget range.</p>

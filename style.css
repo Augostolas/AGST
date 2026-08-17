@@ -346,7 +346,22 @@ body.geedorah-mode .crt-overlay {
     gap: 7px;
     min-width: 126px;
     border: 1px solid var(--term-green-dim);
+    color: inherit;
+    cursor: pointer;
     padding: 13px 16px 10px;
+    text-decoration: none;
+}
+
+.contact-channel:hover,
+.contact-channel:focus-visible {
+    border-color: var(--term-green-bright);
+    background: color-mix(in srgb, var(--term-green-bright) 8%, transparent);
+    outline: none;
+}
+
+.contact-channel:hover .roblox-talent-icon,
+.contact-channel:focus-visible .roblox-talent-icon {
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--term-green-bright) 82%, transparent));
 }
 
 .theme-icon {
@@ -542,6 +557,22 @@ body.admin-rgb-wave .theme-icon {
     pointer-events: none;
     z-index: 0;
     opacity: 0.42;
+}
+
+.version-stamp {
+    position: fixed;
+    left: 12px;
+    bottom: 10px;
+    z-index: 20;
+    border: 1px solid var(--term-green-dim);
+    background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    color: var(--term-green-bright);
+    padding: 3px 7px;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-shadow: 0 0 6px currentColor;
+    transition: color 1.7s ease, background-color 1.7s ease, border-color 1.7s ease;
 }
 
 .ascii-signature {
