@@ -376,7 +376,7 @@ ${renderTabs('prices')}
         markEasterEggFound('123');
         appendEntry(command, `
 <div class="egg-message">
-    Easy as 1-2-3! You found another one.
+    Good
 </div>`);
     }
 
