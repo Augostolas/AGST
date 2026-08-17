@@ -304,24 +304,63 @@ ${renderTabs('contact')}
         return `
 ${renderTabs('prices')}
 <section class="view-panel" id="view-panel" role="tabpanel" aria-labelledby="tab-prices" tabindex="0">
-<div class="price-grid">
-    <div class="price-card">
-        <h3>Starter</h3>
-        <strong>USD $50+</strong>
-        <p>Small fixes, UI polish, simple scripts, or asset tweaks.</p>
+<div class="file-manager prices-file-manager">
+    <div class="fm-toolbar">
+        <span>C:\\PORTFOLIO\\PRICES</span>
+        <span>1 item(s)</span>
     </div>
-    <div class="price-card">
-        <h3>Build Pack</h3>
-        <strong>USD $150+</strong>
-        <p>Maps, interactive scenes, feature prototypes, and portfolio-ready pages.</p>
-    </div>
-    <div class="price-card">
-        <h3>Full System</h3>
-        <strong>Custom</strong>
-        <p>Complete game/web systems with animation, scripting, VFX, and iteration.</p>
+    <div class="fm-grid">
+        <div class="folder-list">
+            <div class="folder-row active pricing-folder">
+                <span class="folder-icon" aria-hidden="true">
+                    <img class="folder-icon-green" src="assets/ui/folder-green.png" alt="">
+                    <img class="folder-icon-red" src="assets/ui/folder-red.png" alt="">
+                </span>
+                <span>Work Arrangements</span>
+            </div>
+        </div>
+        <article class="file-list pricing-document">
+            <h2>Payment &amp; Work Arrangements</h2>
+            <p>I have diversified methods when it comes to payment and work arrangements.</p>
+            <p>I built my experience by working with different types of clients and adapting to what each client’s situation required, whether that meant weekly payments, payments every two weeks, paid hours, commissions, or upfront payments.</p>
+            <p>Because of that, I created a way to make longer work periods, usually 2 weeks or more, more financially beneficial for my clients in a practical way.</p>
+            <p>With that in mind, I separated a detailed explanation of how it works:</p>
+
+            <h3>1. Fixed-time work</h3>
+            <p>Instead of paying small amounts immediately, which may not be as worth it for the client over a not-so-long period, a fixed price will be calculated based on a few methods I developed throughout these years.</p>
+            <p>These methods include:</p>
+
+            <h4>1.1. Fixed work hours per day during a specific period</h4>
+            <p>It is possible to define a fixed amount of work hours per day during a certain period. This value can be adjusted according to the client’s needs.</p>
+            <p>This option can also be left out for a lower cost, but with a longer delivery margin, due to competition with other projects.</p>
+
+            <h4>1.2. Weekend work</h4>
+            <p>Working on weekends is also configurable, meaning it can be included or not, always depending on each client’s needs.</p>
+
+            <h4>1.3. Discounts for longer periods</h4>
+            <p>Values that go beyond two weeks are subject to general discounts, especially when they involve a heavier workload.</p>
+            <p>For example:</p>
+            <div class="pricing-example">
+                <span>1 week = X value</span>
+                <span>2 weeks = 1.6X</span>
+                <span>1 month = 3.2X</span>
+            </div>
+            <p>In a common method, the price would be 2X for two weeks and 4X for one month. With this discount system, these values make a real difference.</p>
+            <p>This value already includes factors such as daily work hours, weekends, exclusivity, and other agreed details.</p>
+
+            <h4>1.4. Exclusivity</h4>
+            <p>This exclusivity system basically keeps me working exclusively on your project until the agreed period is over, resulting in faster deliveries and possible courtesy extras.</p>
+
+            <h3>2. Tasks</h3>
+            <p>The task system is what everyone already knows: you ask me for something, and I get it done within a certain period of time.</p>
+            <p>Usually, this model does not include discounts. At most, there may be extra costs, split payments, or upfront payments for a more advantageous development process, depending on what is agreed and on the client’s needs.</p>
+
+            <h3>3. Upfront payments</h3>
+            <p>This is one of the most beneficial methods and usually connects with the first one.</p>
+            <p>The difference is that, in this case, it is not closed around a predefined period of time. The price is determined based on a specific goal, along with a shorter delivery time and some possible benefits.</p>
+        </article>
     </div>
 </div>
-<p class="price-note">Starting estimates only. Final quotes depend on scope, deadline, revisions, and asset requirements.</p>
 </section>`;
     }
 

@@ -50,7 +50,6 @@ body {
 .fm-toolbar,
 .folder-list,
 .preview-card,
-.price-card,
 .egg-counter-panel,
 .terminal-screen * {
     transition:
@@ -358,30 +357,53 @@ body.geedorah-mode .folder-icon-red {
     color: var(--term-green);
 }
 
-.price-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin-top: 10px;
+.pricing-folder {
+    cursor: default;
 }
 
-.price-card {
-    border: 1px solid var(--term-green-dim);
-    border-radius: 4px;
-    padding: 12px;
+.pricing-document {
+    min-width: 0;
+    padding: 16px 18px 22px;
 }
 
-.price-card h3,
-.price-card strong {
-    display: block;
+.pricing-document h2,
+.pricing-document h3,
+.pricing-document h4 {
     color: var(--term-green-bright);
-    margin-bottom: 6px;
+    line-height: 1.2;
 }
 
-.price-note {
-    margin-top: 10px;
-    color: var(--term-green-dim);
-    font-size: 0.88rem;
+.pricing-document h2 {
+    border-bottom: 1px dashed var(--term-green-dim);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    font-size: 1.2rem;
+}
+
+.pricing-document h3 {
+    margin: 20px 0 8px;
+    font-size: 1.05rem;
+}
+
+.pricing-document h4 {
+    margin: 16px 0 7px;
+    font-size: 0.96rem;
+}
+
+.pricing-document p {
+    margin-bottom: 10px;
+    color: var(--term-green);
+    font-size: 0.9rem;
+    line-height: 1.52;
+}
+
+.pricing-example {
+    display: grid;
+    gap: 3px;
+    border-left: 2px solid var(--term-green-dim);
+    margin: 4px 0 12px;
+    padding: 7px 11px;
+    color: var(--term-green-bright);
 }
 
 .egg-message {
@@ -617,8 +639,7 @@ body.geedorah-mode.matrix-unlocked .cli-input-area {
     }
 
     .fm-grid,
-    .file-row,
-    .price-grid {
+    .file-row {
         grid-template-columns: 1fr;
     }
 
