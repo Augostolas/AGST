@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const easterEggsFound = {
         matrix: false,
         '123': false,
-        geedorah: false
+        admin: false
     };
     let discoveryModulePromise = null;
 
@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         matrixActive: false,
         matrixFrame: null,
         matrixLastFrame: 0,
-        matrixScene: null
+        matrixScene: null,
+        rgbWaveCleanup: null
     };
 
     const folders = {
@@ -155,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (Object.values(easterEggsFound).every(Boolean)) {
                 unlockMatrixBackground();
+                document.body.classList.add('primary-eggs-complete');
             }
         }
         updateEggDisplay();
@@ -378,7 +380,6 @@ ${renderTabs('prices')}
     }
 
     function runGeedorahEasterEgg(command) {
-        markEasterEggFound('geedorah');
         document.body.classList.add('geedorah-mode');
         if (state.matrixActive) startMatrixRain();
         playGeedorahFlash();
@@ -387,6 +388,61 @@ ${renderTabs('prices')}
 <div class="geedorah-message">
     Good taste mate :)
 </div>`);
+    }
+
+    function clearRgbWave() {
+        document.querySelectorAll('.rgb-glyph').forEach(glyph => glyph.replaceWith(glyph.textContent));
+        document.querySelectorAll('.terminal-screen, .egg-counter-panel').forEach(root => root.normalize());
+        state.rgbWaveCleanup = null;
+    }
+
+    function playRgbWave() {
+        if (state.rgbWaveCleanup) state.rgbWaveCleanup();
+
+        const textNodes = [];
+        const roots = [document.getElementById('terminalScreen'), document.querySelector('.egg-counter-panel')];
+        roots.forEach(root => {
+            if (!root) return;
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+            let node = walker.nextNode();
+            while (node) {
+                if (node.nodeValue.trim() && !node.parentElement.closest('.sr-only, input, style, script')) textNodes.push(node);
+                node = walker.nextNode();
+            }
+        });
+
+        const totalGlyphs = textNodes.reduce((total, node) => total + [...node.nodeValue].filter(character => !/\s/.test(character)).length, 0);
+        let glyphIndex = 0;
+
+        textNodes.forEach(node => {
+            const fragment = document.createDocumentFragment();
+            [...node.nodeValue].forEach(character => {
+                if (/\s/.test(character)) {
+                    fragment.append(character);
+                    return;
+                }
+
+                const glyph = document.createElement('span');
+                glyph.className = 'rgb-glyph';
+                glyph.textContent = character;
+                glyph.style.setProperty('--rgb-delay', `${Math.round((glyphIndex / Math.max(totalGlyphs - 1, 1)) * 900)}ms`);
+                fragment.append(glyph);
+                glyphIndex += 1;
+            });
+            node.replaceWith(fragment);
+        });
+
+        const timer = window.setTimeout(clearRgbWave, 2300);
+        state.rgbWaveCleanup = () => {
+            window.clearTimeout(timer);
+            clearRgbWave();
+        };
+    }
+
+    function runAdminEasterEgg(command) {
+        appendEntry(command, '<div class="admin-message">ADMIN CHANNEL // ACCESS GRANTED</div>');
+        markEasterEggFound('admin');
+        requestAnimationFrame(playRgbWave);
     }
 
     function startBackgroundMusic() {
@@ -434,6 +490,11 @@ ${renderTabs('prices')}
 
         if (cmd === 'matrix') {
             discoverMatrix(command);
+            return;
+        }
+
+        if (cmd === 'admin') {
+            runAdminEasterEgg(command);
             return;
         }
 

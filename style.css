@@ -574,6 +574,24 @@ body.geedorah-mode .ascii-signature {
     filter: drop-shadow(0 0 5px rgba(176, 0, 32, 0.2));
 }
 
+body.primary-eggs-complete .ascii-signature {
+    color: #fff2a6;
+    opacity: 0.82;
+    filter: drop-shadow(0 0 5px rgba(255, 237, 138, 0.92)) drop-shadow(0 0 14px rgba(255, 225, 92, 0.62));
+    animation: watermarkGlow 2.2s ease-in-out infinite alternate;
+}
+
+.admin-message {
+    color: #fff;
+    border-left: 2px solid currentColor;
+    padding: 6px 10px;
+    text-shadow: 0 0 8px currentColor;
+}
+
+.rgb-glyph {
+    animation: rgbGlyphWave 1.2s ease-in-out var(--rgb-delay, 0ms) both;
+}
+
 .geedorah-message {
     border: 1px solid #b00020;
     color: #980019;
@@ -610,6 +628,27 @@ body.geedorah-mode.matrix-unlocked .cli-input-area {
     18% { opacity: 0.86; background: #dc1738; }
     48% { opacity: 0.96; background: #ffffff; }
     100% { opacity: 0; background: #ffffff; }
+}
+
+@keyframes rgbGlyphWave {
+    0%, 100% { color: inherit; text-shadow: inherit; }
+    16% { color: #ff3158; text-shadow: 0 0 7px #ff3158; }
+    32% { color: #ff9d28; text-shadow: 0 0 7px #ff9d28; }
+    48% { color: #fff45c; text-shadow: 0 0 8px #fff45c; }
+    64% { color: #38ff9a; text-shadow: 0 0 7px #38ff9a; }
+    80% { color: #42b8ff; text-shadow: 0 0 7px #42b8ff; }
+    92% { color: #d85cff; text-shadow: 0 0 7px #d85cff; }
+}
+
+@keyframes watermarkGlow {
+    from {
+        opacity: 0.68;
+        filter: drop-shadow(0 0 4px rgba(255, 237, 138, 0.72)) drop-shadow(0 0 10px rgba(255, 225, 92, 0.42));
+    }
+    to {
+        opacity: 0.94;
+        filter: drop-shadow(0 0 7px rgba(255, 248, 190, 1)) drop-shadow(0 0 20px rgba(255, 225, 92, 0.82));
+    }
 }
 
 @keyframes blink {
