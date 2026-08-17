@@ -507,24 +507,47 @@ body.geedorah-mode .folder-icon-red {
     opacity: 0.42;
 }
 
-.ascii-watermark {
+.ascii-signature {
     position: fixed;
     right: 12px;
     bottom: 10px;
     z-index: 3;
     max-width: calc(100vw - 24px);
     color: var(--term-green-bright);
+    opacity: 0.24;
+    pointer-events: none;
+    text-align: center;
+    transition: color 1.7s ease, opacity 1.7s ease, filter 1.7s ease;
+}
+
+.ascii-watermark {
+    max-width: 100%;
     font-family: 'Courier New', monospace;
     font-size: clamp(1px, 0.22vw, 3px);
     font-weight: 700;
     line-height: 0.86;
     letter-spacing: 0;
-    opacity: 0.11;
     overflow: hidden;
-    pointer-events: none;
     text-align: left;
     text-shadow: none;
     white-space: pre;
+}
+
+.ascii-signature-name {
+    display: block;
+    margin-top: 7px;
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: clamp(0.72rem, 1.35vw, 1.05rem);
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    line-height: 1;
+    text-shadow: 0 0 8px currentColor;
+}
+
+body.geedorah-mode .ascii-signature {
+    color: #b00020;
+    opacity: 0.32;
+    filter: drop-shadow(0 0 5px rgba(176, 0, 32, 0.2));
 }
 
 .geedorah-message {
@@ -588,9 +611,9 @@ body.geedorah-mode.matrix-unlocked .cli-input-area {
         width: min(220px, calc(100vw - 24px));
     }
 
-    .ascii-watermark {
+    .ascii-signature {
         bottom: 142px;
-        opacity: 0.08;
+        opacity: 0.16;
     }
 
     .fm-grid,
