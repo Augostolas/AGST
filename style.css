@@ -507,6 +507,26 @@ body.geedorah-mode .folder-icon-red {
     opacity: 0.42;
 }
 
+.ascii-watermark {
+    position: fixed;
+    right: 12px;
+    bottom: 10px;
+    z-index: 3;
+    max-width: calc(100vw - 24px);
+    color: var(--term-green-bright);
+    font-family: 'Courier New', monospace;
+    font-size: clamp(1px, 0.22vw, 3px);
+    font-weight: 700;
+    line-height: 0.86;
+    letter-spacing: 0;
+    opacity: 0.11;
+    overflow: hidden;
+    pointer-events: none;
+    text-align: left;
+    text-shadow: none;
+    white-space: pre;
+}
+
 .geedorah-message {
     border: 1px solid #b00020;
     color: #980019;
@@ -566,6 +586,11 @@ body.geedorah-mode.matrix-unlocked .cli-input-area {
         right: 12px;
         bottom: 12px;
         width: min(220px, calc(100vw - 24px));
+    }
+
+    .ascii-watermark {
+        bottom: 142px;
+        opacity: 0.08;
     }
 
     .fm-grid,

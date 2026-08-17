@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cliInput = document.getElementById('cliInput');
     const dynamicContent = document.getElementById('dynamicContent');
     const matrixCanvas = document.getElementById('matrixCanvas');
+    const asciiWatermark = document.getElementById('asciiWatermark');
     const eggCounter = document.getElementById('eggCounter');
     const backgroundMusic = document.getElementById('backgroundMusic');
     const geedorahFlash = document.getElementById('geedorahFlash');
@@ -14,6 +15,19 @@ document.addEventListener('DOMContentLoaded', () => {
         geedorah: false
     };
     let discoveryModulePromise = null;
+
+    fetch('assets/ui/ascii-watermark.txt')
+        .then(response => {
+            if (!response.ok) throw new Error('Watermark unavailable');
+            return response.text();
+        })
+        .then(text => {
+            asciiWatermark.textContent = text.replace(/^(?:[ \t]*\r?\n)+|(?:\r?\n[ \t]*)+$/g, '');
+        })
+        .catch(() => {
+            asciiWatermark.hidden = true;
+        });
+
     const state = {
         history: [],
         historyIndex: 0,
