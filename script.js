@@ -105,13 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
             title: 'VFXing',
             files: [
                 {
-                    name: 'Crimson Aura',
-                    hideLabel: true,
+                    name: '001',
                     preview: 'assets/vfxing/crimson-aura.webp'
                 },
                 {
-                    name: 'Golden Aura',
-                    hideLabel: true,
+                    name: '002',
                     preview: 'assets/vfxing/golden-aura.webp'
                 }
             ]
