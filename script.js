@@ -296,6 +296,12 @@ ${renderTabs('contact')}
 <section class="content-section view-panel" id="view-panel" role="tabpanel" aria-labelledby="tab-contact" tabindex="0">
     <pre class="ascii-header">CONTACT CHANNELS
 ----------------</pre>
+    <div class="contact-channels">
+        <div class="contact-channel">
+            <span class="theme-icon roblox-talent-icon" aria-hidden="true"></span>
+            <span class="contact-channel-name">Roblox Talent</span>
+        </div>
+    </div>
     <p>Discord : augostoletal</p>
     <p>Brief   : Send project type, deadline, references, and budget range.</p>
     <p>Status  : Available for animation, building, scripting, and VFX work.</p>
@@ -391,6 +397,7 @@ ${renderTabs('prices')}
     }
 
     function clearRgbWave() {
+        document.body.classList.remove('admin-rgb-wave');
         document.querySelectorAll('.rgb-glyph').forEach(glyph => glyph.replaceWith(glyph.textContent));
         document.querySelectorAll('.terminal-screen, .egg-counter-panel').forEach(root => root.normalize());
         state.rgbWaveCleanup = null;
@@ -398,6 +405,7 @@ ${renderTabs('prices')}
 
     function playRgbWave() {
         if (state.rgbWaveCleanup) state.rgbWaveCleanup();
+        document.body.classList.add('admin-rgb-wave');
 
         const textNodes = [];
         const roots = [document.getElementById('terminalScreen'), document.querySelector('.egg-counter-panel')];

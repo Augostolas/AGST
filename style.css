@@ -357,6 +357,45 @@ body.geedorah-mode .folder-icon-red {
     color: var(--term-green);
 }
 
+.contact-channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 14px 0 18px;
+}
+
+.contact-channel {
+    display: grid;
+    justify-items: center;
+    gap: 7px;
+    min-width: 126px;
+    border: 1px solid var(--term-green-dim);
+    padding: 13px 16px 10px;
+}
+
+.theme-icon {
+    display: block;
+    background-color: var(--term-green-bright);
+    transition: background-color 1.7s ease, filter 1.7s ease;
+}
+
+.roblox-talent-icon {
+    width: 76px;
+    aspect-ratio: 1;
+    -webkit-mask: url('assets/contact/roblox.png') center / contain no-repeat;
+    mask: url('assets/contact/roblox.png') center / contain no-repeat;
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--term-green-bright) 58%, transparent));
+}
+
+.contact-channel-name {
+    color: var(--term-green-bright);
+    font-size: 0.9rem;
+}
+
+body.admin-rgb-wave .theme-icon {
+    animation: rgbIconWave 1.8s ease-in-out both;
+}
+
 .pricing-folder {
     cursor: default;
 }
@@ -638,6 +677,16 @@ body.geedorah-mode.matrix-unlocked .cli-input-area {
     64% { color: #38ff9a; text-shadow: 0 0 7px #38ff9a; }
     80% { color: #42b8ff; text-shadow: 0 0 7px #42b8ff; }
     92% { color: #d85cff; text-shadow: 0 0 7px #d85cff; }
+}
+
+@keyframes rgbIconWave {
+    0%, 100% { background-color: var(--term-green-bright); }
+    16% { background-color: #ff3158; filter: drop-shadow(0 0 9px #ff3158); }
+    32% { background-color: #ff9d28; filter: drop-shadow(0 0 9px #ff9d28); }
+    48% { background-color: #fff45c; filter: drop-shadow(0 0 11px #fff45c); }
+    64% { background-color: #38ff9a; filter: drop-shadow(0 0 9px #38ff9a); }
+    80% { background-color: #42b8ff; filter: drop-shadow(0 0 9px #42b8ff); }
+    92% { background-color: #d85cff; filter: drop-shadow(0 0 9px #d85cff); }
 }
 
 @keyframes watermarkGlow {
