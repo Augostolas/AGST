@@ -297,8 +297,6 @@ ${renderTabs('contact')}
         </a>
     </div>
     <p>Discord : augostoletal</p>
-    <p>Brief   : Send project type, deadline, references, and budget range.</p>
-    <p>Status  : Available for animation, building, scripting, and VFX work.</p>
 </section>`;
     }
 
