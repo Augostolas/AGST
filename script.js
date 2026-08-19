@@ -265,6 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return `
 ${renderTabs('projects')}
+<p class="portfolio-updated">Last updated: 23/10/2025</p>
 <section class="view-panel" id="view-panel" role="tabpanel" aria-labelledby="tab-projects" tabindex="0">
 <div class="file-manager">
     <div class="fm-toolbar">

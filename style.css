@@ -575,6 +575,13 @@ body.admin-rgb-wave .theme-icon {
     transition: color 1.7s ease, background-color 1.7s ease, border-color 1.7s ease;
 }
 
+.portfolio-updated {
+    margin: -2px 0 8px;
+    color: var(--term-green-dim);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+}
+
 .ascii-signature {
     position: fixed;
     right: 12px;
